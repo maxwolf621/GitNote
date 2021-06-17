@@ -37,3 +37,20 @@ git rm --cached file1.txt
 git commit -m "remove file1.txt"
 #* And to push changes to remote repo
 git push origin branch_name
+
+
+#################################################################################################################################################
+# IF accidently remove the files                                                                                                                #
+# [reference](Note that git reset --hard HEAD destroys any useful changes you have made in parent directories of the current working directory.)#
+#################################################################################################################################################
+
+it reset HEAD
+#* Should do it. If you don't have any uncommitted changes that you care about, then
+git reset --hard HEAD  #* should forcibly reset everything to your last commit. 
+
+#* Coz git reset --hard HEAD destroys any useful changes you have made in parent directories of the current working directory.
+#* If you do have uncommitted changes, but the first command doesn't work, then save your uncommitted changes with git stash:
+git stash
+
+git reset --hard HEAD
+git stash pop
