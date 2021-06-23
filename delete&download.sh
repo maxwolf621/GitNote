@@ -5,21 +5,25 @@
 #########################
 #Downloading the Project# 
 #########################
-#* git clone https://github.com/<YourUserName>/<Your_Downloading_ProjectName_From_Github>
+
+#**
+# git clone https://github.com/<YourUserName>/<Your_Downloading_ProjectName_From_Github>
 git clone https://github.com/maxwolf621/OauthUser
 
 
 ######################################################################
 # Once the repo is cloned, you need to do two things to creat a Fork #
 ######################################################################
-#* Create a new branch by issuing the command: 
+
+#** 
+# 1. Create a new branch by issuing the command: 
 git checkout -b new_branch
 
-#* Create a new remote for the `upstream repo` with the command:
-#* In this case, "upstream repo" refers to the original repo you created your fork from.
+#**
+# 2. Create a new remote for the `upstream repo` with the command:
+#    In this case, "upstream repo" refers to the original repo you created your fork from.
 git remote add upstream https://github.com/maxwolf621/OauthUser
-
-#* Now you can make changes to the code. The following code creates a new branch, makes an arbitrary change, and pushes it to new_branch:
+#### Now you can make changes to the code. 
 
 
 #################################################################################################################
@@ -29,12 +33,13 @@ git remote add upstream https://github.com/maxwolf621/OauthUser
 
 
 #* To remove the file from the Git repository and the filesystem, use:
-git rm file1.txt
-git commit -m "remove file1.txt"
+git rm fileName.filetype
+git commit -m "remove"
+git push origin branch_name
 
-#* To remove the file only from the Git repository and not remove it from the filesystem, use:
-git rm --cached file1.txt
-git commit -m "remove file1.txt"
+#* To remove the file only from the Git repository and not remove it from the filesystem, use `--cached`
+git rm --cached fileName.filetype
+git commit -m "remove"
 #* And to push changes to remote repo
 git push origin branch_name
 
