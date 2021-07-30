@@ -31,9 +31,13 @@ git init
 ```
 - Git Repository中Stage 的暫存區以及 History Git-Repository，History 存储所有Forks訊息，也會有一個`HEAD` Pointer指向目前Fork
 
-<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208195941661.png"/> </div><br>
+![image](https://user-images.githubusercontent.com/68631186/127678754-c72c04c1-ddf4-4696-a408-29f238a2e6af.png)
 
-- git add files 把文件的修改添加到暂存区
+- git add file/directories 
+  > It means to track the file  
+  > ![image](https://user-images.githubusercontent.com/68631186/127679125-d613cd95-08e6-4c31-932a-b71ee17f491e.png)  
+  > The git add command takes a path name for either a file or a directory;   
+  > if it’s a directory, the command adds all the files in that directory recursively.  
 - git commit 把暂存区的修改提交到当前分支，提交之后暂存区就被清空了
 - git reset -- files 使用当前分支上的修改覆盖暂存区，用来撤销最后一次 git add files
 - git checkout -- files 使用暂存区的修改覆盖工作目录，用来撤销本地修改
