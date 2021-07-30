@@ -1,59 +1,69 @@
 # Git
 
+[Git面試](https://segmentfault.com/a/1190000019315509)  
+
 ## Centralized Version (Zentrale Versionsverwaltung) und Distributed version control(Verteilte Versionsverwaltung)
-
-
 [ref](https://git-scm.com/book/de/v2/Erste-Schritte-Was-ist-Versionsverwaltung%3F)  
 Git : Verteilte Versionverwaltung   
 SVN : Zentrale Versionverwaltung  
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208200656794.png"/> </div><br>
 
-
 #### Zentrale Versionsverwaltung
-- 有安全性問題 (mit dem sich viele Leute dann konfrontiert sahen)
+- 安全性問題, mit dem sich viele Leute dann konfrontiert sahen
 - If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything 
 - 每一個Fork支相當於kopieren一份完整的Repository
 
 #### Verteilte Versionsverwaltung
-Auf diese Weise kann, wenn ein Server beschädigt wird, jedes beliebige Repository von jedem beliebigen Anwenderrechner zurückkopiert werden und der Server so wiederhergestellt werden. Jede Kopie, ein sogenannter Klon (engl. clone), ist ein vollständiges Backup der gesamten Projektdaten.  
-Auf diese Weise kann, wenn ein Server beschädigt wird, jedes beliebige Repository von jedem beliebigen Anwenderrechner zurückkopiert werden und der Server so wiederhergestellt werden.   
-Jede Kopie, ein sogenannter Klon (engl. clone), ist ein vollständiges Backup der gesamten Projektdaten.  
+- Auf diese Weise kann, wenn ein Server beschädigt wird, jedes beliebige Repository von jedem beliebigen Anwenderrechner zurückkopiert werden und der Server so wiederhergestellt werden. Jede Kopie, ein sogenannter Klon (engl. clone), ist ein vollständiges Backup der gesamten Projektdaten.  
 
 
 ## Branching Workflows
-
+[Branch](https://backlog.com/git-tutorial/tw/stepup/stepup1_1.html)  
+[Git Objects](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/07.md)   
+Wenn wir ein git repository anlegen
 ```console
-# Ein Git-Repository anlegen
 # Create A Git repository 
 cd new_repository
 git init
 ```
-- Git Repository中Stage 的暫存區以及 History Git-Repository，History 存储所有Forks訊息，也會有一個`HEAD` Pointer指向目前Fork
-
-![image](https://user-images.githubusercontent.com/68631186/127678754-c72c04c1-ddf4-4696-a408-29f238a2e6af.png)
-
-- git add file/directories 
-  > It means to track the file  
+![image](https://user-images.githubusercontent.com/68631186/127678754-c72c04c1-ddf4-4696-a408-29f238a2e6af.png)  
+- Die vier oben in der Grafik erwähnten Kommandos kopieren Dateien zwischen dem **Arbeitsverzeichnis(Work Dir)**, dem **Index (stage)** und dem **Projektarchiv (history)**.
+  > ![image](https://user-images.githubusercontent.com/68631186/127700556-02dd0d20-bfae-4f9a-9207-3dd2d8a012dd.png)
+- `git add file/directories` 
+  > kopiert die Dateien aus dem Arbeitsverzeichnis in ihrem aktuellen Zustand in den Index.
   > ![image](https://user-images.githubusercontent.com/68631186/127679125-d613cd95-08e6-4c31-932a-b71ee17f491e.png)  
-  > The git add command takes a path name for either a file or a directory;   
-  > if it’s a directory, the command adds all the files in that directory recursively.  
-- git commit 把暂存区的修改提交到当前分支，提交之后Stage Area就被清空了
-- git reset -- files 使用当前分支上的修改覆盖暂存区，用来撤销最后一次 git add files
-- git checkout -- files 使用暂存区的修改覆盖工作目录，用来撤销本地修改
+  > The git add command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.  
+- `git commit -m`把Stage Area的Modified `commit`到Current Branch
+  > Es speichert einen Schnappschuss des Indexes als Commit im Projektarchiv.
+  > After `commit`, Stage Area會將Stage File(s)清除 
+- `git reset -- files` 使用目前Brnach上的Modified在Stage Area內的Stage Files，用来撤銷(withdraw)最後一次的`git add files`
+  > es entfernt geänderte Dateien aus dem Index; dazu werden die Dateien des letzten Commits in den Index kopiert. Damit kannst du ein `git add Dateien` rückgängig machen. Mit `git reset` kannst du alle geänderten Dateien aus dem Index entfernen.
+- `git checkout -- files` 使用Stage Area的Modified更新Work Directory撤銷(withdraw)本地Modified
+   >  kopiert Dateien aus dem Index in das Arbeitsverzeichnis. Damit kannst du die Änderungen im Arbeitsverzeichnis verwerfen.  
+- [`git status`](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/07.md#git-status)
 
-<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208200014395.png"/> </div><br>
+Es ist auch möglich, den Index zu überspringen und Dateien direkt aus dem Archiv (history) auszuchecken oder Änderungen im Arbeitsverzeichnis direkt zu committen
+1. Directly Fetch Modified for Branch
+2. `commit` Modified to Brnach
+![image](https://user-images.githubusercontent.com/68631186/127697166-273744d4-d796-44d6-b71d-65ec07831035.png)
+```console
+#ist gleichbedeutend mit git add auf allen im letzten Commit bekannten Dateien, gefolgt von einem git commit.
+git commit -a 
 
-可以跳过暂存区域直接从分支中取出修改，或者直接提交修改到分支中。
-- git commit -a 直接把所有文件的修改添加到暂存区然后执行提交
-- git checkout HEAD -- files 取出最后一次修改，可以用来进行回滚操作
+# files erzeugt einen neuen Commit mit dem Inhalt aller aufgeführten Dateien aus dem Arbeitsverzeichnis. Zusätzlich werden die Dateien in den Index kopiert.
+git commit  
 
-<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208200543923.png"/> </div><br>
+#kopiert die Dateien vom letzten Commit sowohl in den Index als auch in das Arbeitsverzeichnis.
+git checkout HEAD -- Dateien 
+```
 
-## 分支实现
+## Branch
+[Branch](https://medium.com/i-think-so-i-live/git%E4%B8%8A%E7%9A%84%E4%B8%89%E7%A8%AE%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B-10f4f915167e)
+[指令](https://marklodato.github.io/visual-git-guide/index-zh-tw.html)
+[doggy8088](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/08.md)  
 
-使用指针将每个提交连接成一条时间线，HEAD 指针指向当前分支指针。
-
+使用Pointer將Each Commit連接成一條時間線，其中HEAD指向Current Brnach   
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208203219927.png"/> </div><br>
 
 新建分支是新建一个指针指向时间线的最后一个节点，并让 HEAD 指针指向新分支，表示新分支成为当前分支。
@@ -128,11 +138,11 @@ $ ssh-keygen -t rsa -C "maxwolf@gmail.com"
 
 不需要全部自己编写，可以到 [https://github.com/github/gitignore](https://github.com/github/gitignore) 中进行查询。
 
-## Git 命令一览
+## Git Command
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/7a29acce-f243-4914-9f00-f2988c528412.jpg" width=""> </div><br>
 
-比较详细的地址：http://www.cheat-sheets.org/saved-copy/git-cheat-sheet.pdf
+[PDF download](http://www.cheat-sheets.org/saved-copy/git-cheat-sheet.pdf)  
 
 ### git diff
 [More Detail](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/09.md#%E7%AC%AC-09-%E5%A4%A9%E6%AF%94%E5%B0%8D%E6%AA%94%E6%A1%88%E8%88%87%E7%89%88%E6%9C%AC%E5%B7%AE%E7%95%B0)
@@ -173,6 +183,7 @@ Date:   Sat Jul 31 00:51:47 2020 +0800
 ```
 
 `git diff commit commitId前四碼 commitId2前四碼`
+[commitId絕對名稱](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/10.md)
 ```bash
 $ git diff 2bba sa0a
 diff --git a/ex.txt b/ex.txt
