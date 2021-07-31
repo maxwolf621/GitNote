@@ -1,5 +1,5 @@
 ###### tags : `git`
-# 版本控制
+# Git版本控制
 
 ## 版本控管的基本原則
 [Note Taking](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/18.md)  
@@ -222,13 +222,11 @@ Date:   Sat Jul 31 05:32:29 2020 +0800
 [note taking](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA)    
 [from doggy8088 note taking](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/22.md)   
 
-### Diagram
 ![image](https://user-images.githubusercontent.com/68631186/127741064-2d8f2263-a555-4e0e-8393-679df2b1c8f2.png)
-- 從分歧點 `rebase` main上
+- 從分歧點`169a6`rebase到main這條branch上
 
-For example 
+## Example 
 ![image](https://user-images.githubusercontent.com/68631186/127736291-d26756fc-3ab8-4fba-adea-4c51ed836c37.png)
-
 #### Use `merge` to interage the branches
 It performs a three-way merge between the two latest branch snapshots (`C3` and `C4`) and the most recent common ancestor of the two (`C2`), creating a new snapshot (and `commit`).   
 ![image](https://user-images.githubusercontent.com/68631186/127736382-d3ec1d77-ac2b-4eab-bd1e-537d6d42c0a3.png)  
