@@ -269,8 +269,8 @@ In this case, you’d do your work in a branch and then rebase your work onto `o
 That way, the maintainer doesn’t have to do any integration work — just a fast-forward or a clean apply.
 > 一般我们这样做的目的是为了确保在向远程分支推送时能保持提交历史的整洁——例如向某个其他人维护的项目贡献代码时。 在这种情况下，你首先在自己的分支里进行开发，当开发完成时你需要先将你的代码变基到 origin/master 上，然后再向主项目提交修改。 这样的话，该项目的维护者就不再需要进行整合工作，只需要快进合并便可
 
-**it’s only the history that is different. **
-- Rebasing replays changes from one line of work onto another in the order they were introduced(把某Branch一系列commits有時間順序性的依次應用到rebase的Branch上), whereas merging takes the endpoints and merges them together(將branchs的endpoints結合在一起).
+> It’s only the history that is different.
+>> Rebasing replays changes from one line of work onto another in the order they were introduced(把某Branch一系列commits有時間順序性的依次應用到rebase的Branch上), whereas merging takes the endpoints and merges them together(將branchs的endpoints結合在一起).
 
 
 ### More Interesting Rebases
