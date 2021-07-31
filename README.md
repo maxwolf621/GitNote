@@ -123,6 +123,10 @@ git merge origin/master
 # 直接取代fit fetch跟git merge
 git pull
 ```
+如果你今天發生了衝突狀況，而又不知道如何解決，因為版本尚未被成功合併，所以你可以執行以下指令「重置」到目前的 HEAD 版本：
+`git reset --hard HEAD`
+如果你今天成功的合併了，但又想反悔這次的合併動作，那麼你還是可以執行以下指令「重置」到合併前的版本狀態，也就是重置到 ORIG_HEAD 這個版本：
+`git reset --hard ORIG_HEAD`
 
 ## Generierte Commits überarbeiten oder rückgängig machen
 
