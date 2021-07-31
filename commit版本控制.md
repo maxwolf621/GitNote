@@ -43,6 +43,49 @@
 - 當你「分享」特定分支給其他人之後，這些「已分享」的版本歷史紀錄就別再改了
 ```
 
+
+## `git revert` 
+
+[According to gitbook.tw](https://gitbook.tw/chapters/rewrite-history/reset-revert-and-rebase.html)   
+**新增一個Commit 來反轉（或說取消）另一個Commit 的內容，原本的 Commit 依舊還是會保留在歷史紀錄中。雖然會因此而增加 Commit 數，但通常比較適用於已經推出去的 Commit，或是不允許使用 Reset 或 Rebase 之修改歷史紀錄的指令的場合**    
+> 如果是自己一個人做的專案，用 Revert 指令其實有點過於「禮貌」了，大部份都是直接使用 Reset 就好。但如果對於多人共同協作的專案，也許因為團隊開發的政策，你不一定有機會可以使用 Reset 指令，**這時候就可以 Revert 指令來做出一個「取消」的 Commit，對其它人來說也不算是「修改歷史」，而是新增一個 Commit，只是剛好這個 Commit 是跟某個 Commit 反向的操作而已。**
+
+
+## `git cherry-pick`
+[Note Taking](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/21.md)  
+
+```diff
+- cherry-pick : 從別人籃子中的cherry挑(pick)幾個自己要的到籃子內(從別的分支挑幾個自己想要的到自己的分支)
+
++ For example
++ soruce tree (main, branch1)
+
+mian_A--main_B------------------------------->main_C
+     '--branch1_A-->branch1_B-->branch1_C
+
+! git log branch1 -3 #only show up first three logs
+
+...--brach1_A-->branch1_B-->bracn1_c
+
+# If we only want branch1_B and copy it to master 
+# Assume branch1_B commit is dc07017....f2e5
+! $ git cherry-pick dc07017
+
+mian_A--main_B------------------------------->main_C-->main_branch1_B
+     '--branch1_A-->branch1_B-->branch1_C
+```
+
+使用`git cherry-pick`跟使用`git revert`非常相似，也是讓你「挑選」任意一個或多個版本，然後套用在目前分支的最新版上，但主要差異則在於「`git revert`執行的是相反的合併，而`git cherry-pick` 則是重新套用完全相同的變更」  
+
+![image](https://user-images.githubusercontent.com/68631186/127745456-aa5a7270-6fcd-41f8-a2b3-7ce16b9e8089.png)
+- `git cherry-pick 2c33a -x` 則新增版本會提交`cherry picked from commit 2c33a....`訊息
+- `git cherry-pick 2c33a -e`提交之前輸入自己要的訊息
+- `git cherry-pick 2c33a -n`不會自動提交,待使用者自己更改`2c33a`的內容後並`git commit`,此時該新增版本`git log`會顯示該使用者的Author & Date 資訊
+
+```diff
+! 使用`git cherry-pick`時，當前「工作目錄」必須是乾淨，工作目錄下的Stage Area不能有任何準備要 commit 的檔案 (staged files) 在裡面，否則將會無法執行。
+```
+
 ## `git reset COMMIT_VERSION`
 
 例如我們有三個版本  
