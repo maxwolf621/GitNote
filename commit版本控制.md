@@ -1,3 +1,5 @@
+###### tags : `git`
+# 版本控制
 
 ## 版本控管的基本原則
 [Note Taking](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/18.md)  
@@ -89,3 +91,78 @@ Date:   Sat Jul 31 05:32:29 2020 +0800
     usng master
     AMENDING this COMMIT-VERSION BY ADDING NEW FILE NAMED amend.txt
 ```
+
+## rebase
+
+[note taking](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA)    
+[from doggy8088 note taking](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/22.md)   
+
+### Diagram
+![image](https://user-images.githubusercontent.com/68631186/127741064-2d8f2263-a555-4e0e-8393-679df2b1c8f2.png)
+- 從分歧點 `rebase` main上
+
+For example 
+![image](https://user-images.githubusercontent.com/68631186/127736291-d26756fc-3ab8-4fba-adea-4c51ed836c37.png)
+
+#### Use `merge` to interage the branches
+It performs a three-way merge between the two latest branch snapshots (`C3` and `C4`) and the most recent common ancestor of the two (`C2`), creating a new snapshot (and `commit`).   
+![image](https://user-images.githubusercontent.com/68631186/127736382-d3ec1d77-ac2b-4eab-bd1e-537d6d42c0a3.png)  
+
+#### Use `rebase` instead of `merge`
+
+With `rebase` you can take the patch of the change that was introduced in `C4` and reapply it on top of` C3`.  
+- With this command , **you can take all the changes that were committed on one branch and replay them on a different branch.**
+
+For this example, you would check out the experiment branch, and then rebase it onto the master branch as follows:
+```bash
+$ git checkout experiment
+$ git rebase master
+First, rewinding head to replay your work on top of it...
+Applying: added staged command
+```
+
+**This operation works by going to the common ancestor of the two branches**  (the one you’re on(`experiment`) and the one you’re rebasing onto(`master`)),**getting the diff introduced by each commit of the branch you’re on, saving those diffs to temporary files**, **resetting the current branch to the same commit as the branch you are rebasing onto(`C3`), and finally applying each change(temporary files) in turn.**
+
+![image](https://user-images.githubusercontent.com/68631186/127736475-4f95bbcc-5442-4ec2-b73e-efef990a8a02.png)
+
+At this point, you can go back to the master branch and do a fast-forward merge.
+```bash
+$ git checkout master
+$ git merge experiment
+```
+![image](https://user-images.githubusercontent.com/68631186/127736624-de257a44-dbe7-49a6-8c8b-6772116b57fa.png)
+
+
+### Compare `rebase` with `merge` 
+
+the snapshot pointed to by `C4'` is exactly the same as the one that was pointed to by `C5` in the merge example. (is same snapshot )
+
+Good about Rebasing is that it makes for a cleaner history. 
+- It looks like a linear history in `git log`
+  > It appears that all the work happened in series, even when it originally happened in parallel.
+
+Doing this to make sure your commits apply cleanly on a remote branch — perhaps in a project to which you’re trying to contribute but that you don’t maintain.    
+In this case, you’d do your work in a branch and then rebase your work onto `origin/master` when you were ready to submit your patches to the main project.  
+That way, the maintainer doesn’t have to do any integration work — just a fast-forward or a clean apply.
+> 一般我们这样做的目的是为了确保在向远程分支推送时能保持提交历史的整洁——例如向某个其他人维护的项目贡献代码时。 在这种情况下，你首先在自己的分支里进行开发，当开发完成时你需要先将你的代码变基到 origin/master 上，然后再向主项目提交修改。 这样的话，该项目的维护者就不再需要进行整合工作，只需要快进合并便可
+
+**it’s only the history that is different. **
+- Rebasing replays changes from one line of work onto another in the order they were introduced(把某Branch一系列commits有時間順序性的依次應用到rebase的Branch上), whereas merging takes the endpoints and merges them together(將branchs的endpoints結合在一起).
+
+
+### More Interesting Rebases
+You can also have your rebase replay on something other than the rebase target branch. Take a history like A history with a topic branch off another topic branch, for example. You branched a topic branch (server) to add some server-side functionality to your project, and made a commit. Then, you branched off that to make the client-side changes (client) and committed a few times. Finally, you went back to your server branch and did a few more commits.
+
+### Rebase 能做的事
+- 將某個分支當成自己目前分支的「基礎版本」。除了這件事以外，你還可以用來修改某個分支中「特定一段」歷程的紀錄，你可以做的事情包括：
+```diff
+- 調換 commit 的順序
+- 修改 commit 的訊息
+- 插入一個 commit
+- 編輯一個 commit
+- 拆解一個 commit
+- 壓縮一個 commit，且保留訊息紀錄
+- 壓縮一個 commit，但丟棄版本紀錄
+- 刪除一個 commit
+```
+[範例](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/23.md#rebase-%E8%83%BD%E5%81%9A%E7%9A%84%E4%BA%8B)  
