@@ -8,9 +8,29 @@
 # Note 
 
 ## Basic
+- [What is git](https://git-scm.com/book/zh/v2/%E8%B5%B7%E6%AD%A5-Git-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F)
 - [Git](Git.md)
 
 ## Branch
+```diff
+#display 所有分支
+- git branch 
+
+#遠端/本地分支追蹤
+- git branch -a 
+
+- git branch [branch_name]
+
+# switch to branch_name
+- git checkout -b [branch_name]
+- git checkout [branch_name]
+
+# delete the branch_name
+- git branch -d [branch_name]
+
+# display each commit 內容
+- git log
+```
 
 ## Remote and Clone
 - [Clone]()
@@ -93,6 +113,15 @@ For example
 [branch "FixForCRLF"]
 	remote = origin
 	merge = refs/heads/FixForCRLF
+```
+
+[多人共用Remote](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/26.md)當某一方的本地無法`git push`modified到遠端時
+```diff
+# fetch遠端所有分支, merge遠端的分支並merge
+git fetch
+git merge origin/master
+# 直接取代fit fetch跟git merge
+git pull
 ```
 
 ## Generierte Commits überarbeiten oder rückgängig machen
