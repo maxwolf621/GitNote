@@ -233,6 +233,8 @@ pi@JianMayer:~/Desktop/diffExample $ git commit -m "from master"
 - 合併成功後，你可以利用 git log 查看版本紀錄，你可以發現「合併」的過程會自動建立一個新版本
 ```
 
+
+### Confilict
 在Master以及Feature的Branch上都有改到`ex.txt`的第一行,則在進行merge時候會造成Conflict
 ```bash
 $ git merge feature
