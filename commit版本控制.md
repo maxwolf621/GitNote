@@ -51,6 +51,88 @@
 > 如果是自己一個人做的專案，用 Revert 指令其實有點過於「禮貌」了，大部份都是直接使用 Reset 就好。但如果對於多人共同協作的專案，也許因為團隊開發的政策，你不一定有機會可以使用 Reset 指令，**這時候就可以 Revert 指令來做出一個「取消」的 Commit，對其它人來說也不算是「修改歷史」，而是新增一個 Commit，只是剛好這個 Commit 是跟某個 Commit 反向的操作而已。**
 
 
+for example
+```console
+pi@JianMayer:~/Desktop/diffExample $ echo 123 > revert.txt
+pi@JianMayer:~/Desktop/diffExample $ git add revert.txt
+pi@JianMayer:~/Desktop/diffExample $ git commit -m "add revert.txt"
+[master b29b246] add revert.txt
+ 1 file changed, 1 insertion(+)
+ create mode 100644 revert.txt
+pi@JianMayer:~/Desktop/diffExample $ git log -1
+commit b29b2464feec76d5f5a792bed4aabddd0492a793 (HEAD -> master)
+Author: Maxwolf621 <1234@gmail.com>
+Date:   Sun Aug 1 01:56:48 2020 +0800
+
+    add revert.txt
+pi@JianMayer:~/Desktop/diffExample $ git revert b29b2464
+[master e659d5e] Revert "add revert.txt" Execute git revert b29b2364
+ 1 file changed, 1 deletion(-)
+ delete mode 100644 revert.txt
+```
+After enter `git revert b29b2464`
+```bash
+Revert "add revert.txt"
+Execute git revert b29b2364
+
+This reverts commit b29b2464feec76d5f5a792bed4aabddd0492a793.
+
+# Bitte geben Sie eine Commit-Beschreibung f\u00fcr Ihre \u00c4nderungen ein. Zeilen,
+# die mit '#' beginnen, werden ignoriert, und eine leere Beschreibung
+# bricht den Commit ab.
+#
+# Auf Branch master
+# Zum Commit vorgemerkte \u00c4nderungen:
+#       gel\u00f6scht:       revert.txt
+#
+# Unversionierte Dateien:
+#       asbacvsd
+#
+```
+
+After editing and committing
+```console
+pi@JianMayer:~/Desktop/diffExample $ git log -1
+commit e659d5ecd2a1e0cd17e5d7e304e1a08e0d4c8b3a (HEAD -> master)
+Author: Maxwolf621 <jervismayer@gmail.com>
+Date:   Sun Aug 1 01:58:27 2021 +0800
+
+    Revert "add revert.txt"
+    Execute git revert b29b2364
+    
+    This reverts commit b29b2464feec76d5f5a792bed4aabddd0492a793.
+pi@JianMayer:~/Desktop/diffExample $ git show b29b2464
+commit b29b2464feec76d5f5a792bed4aabddd0492a793
+Author: Maxwolf621 <jervismayer@gmail.com>
+Date:   Sun Aug 1 01:56:48 2021 +0800
+
+    add revert.txt
+
+diff --git a/revert.txt b/revert.txt
+new file mode 100644
+index 0000000..190a180
+--- /dev/null
++++ b/revert.txt
+@@ -0,0 +1 @@
++123
+```
+
+```diff
+- 如果有發生Conflict則無法使用`git revert`反悔
+```
+### revert完不自動commit
+
+```diff
+git revert -n commitId
+- revert 該commitId之後不自動提交,之後如果要提交得用`git revert --continue`
+- 如果要withdraw這次的revert操作, 則得用`git revert --abort`
+
+git revert --continue 
+- 代表你已經完成所有操作，並且建立一個新版本，就跟執行 git commit 一樣。
+git revert --abort 
+- 代表你準備放棄這次復原的動作，執行這個命令會讓所有變更狀態還原，也就是刪除的檔案又會被加回來。
+```
+
 ## `git cherry-pick`
 [Note Taking](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/21.md)  
 
