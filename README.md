@@ -67,35 +67,29 @@ git remote add origin https://github.com/doggy8088/sandbox-empty2.git
 `git ls-remote` 或 `git ls-remote origin` 即可列出所有遠端分支
 `branch -a`會列出所有遠端分支以及本地追蹤
 ### refsepc
-
-`+`設定 + 加號，代表傳輸資料時，不會特別使用安全性確認機制。
-
-refs/heads/* : 「來源參照規格」，代表一個位於遠端儲存庫的遠端分支
-
-`:` : 這用來區隔｢來源分支｣與「目的分支」
-
-`refs/remotes/origin/*` : 「目的參照規格」，代表一個位於本地儲存庫的本地追蹤分支
-
-
 假設設定一個refspec為下
-```bash
+```console
 [remote "origin"]
        url = https://github.com/doggy8088/sandbox-empty2.git
        fetch = +refs/heads/master:refs/remotes/origin/master
        fetch = +refs/heads/TestBranch:refs/remotes/origin/TestBranch
 ```
-- 只會`git fetch` remote的master以及TestBranch
+- 表示只會`git fetch` remote的master以及TestBranch
+- `+` : 設定 + 加號，代表傳輸資料時，不會特別使用安全性確認機制。
+- `refs/heads/*` : 「來源參照規格」，代表一個位於遠端儲存庫的遠端分支
+- `:` : 這用來區隔｢來源分支｣與「目的分支」
+- `refs/remotes/origin/*` : 「目的參照規格」，代表一個位於本地儲存庫的本地追蹤分支
 
-### `git push`非本地非main的Branc
+
+
+### `git push`非本地main的Branch
 一個工作目錄下的本地儲存庫，可能會定義有多個遠端儲存庫。
 > 當你想將非main分支透過`git push`推送到遠端時，Git 可能不知道你到底想推送到哪裡，所以我們要另外定義本地分支與遠端儲存庫之間的關係。
-
 
 For example 
 建立一個 FixForCRLF 本地分支，直接透過 git push 無法推送成功，你必須輸入完整的`git push origin FixForCRLF`指令才能將本地分支推送上去，原因就出在你並沒有設定「本地分支」與「遠端儲存庫」之間的預設對應。
 要將本地分支(如FixForCRLE)建立起跟遠端儲存庫的對應關係，只要在`git push`的時候加上`--set-upstream`參數，即可將本地分支(FixForCRLF)註冊進`.git\config`設定檔，之後再用`git push`就可以順利的自動推送上去。  
-
-```
+```console
 [branch "FixForCRLF"]
 	remote = origin
 	merge = refs/heads/FixForCRLF
