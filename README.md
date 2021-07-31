@@ -31,6 +31,8 @@
 # display each commit 內容
 - git log
 ```
+- [Diagram Branch](https://git-scm.com/book/zh-tw/v2/%E4%BD%BF%E7%94%A8-Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E5%92%8C%E5%90%88%E4%BD%B5%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95)
+- [Branch Usage](BranchUsage.md)
 
 ## Remote and Clone
 - [Clone]()
@@ -101,7 +103,6 @@ git remote add origin https://github.com/doggy8088/sandbox-empty2.git
 - `refs/remotes/origin/*` : 「目的參照規格」，代表一個位於本地儲存庫的本地追蹤分支
 
 
-
 ### `git push`非本地main的Branch
 一個工作目錄下的本地儲存庫，可能會定義有多個遠端儲存庫。
 > 當你想將非main分支透過`git push`推送到遠端時，Git 可能不知道你到底想推送到哪裡，所以我們要另外定義本地分支與遠端儲存庫之間的關係。
@@ -129,7 +130,30 @@ git pull
 `git reset --hard ORIG_HEAD`
 
 ## Generierte Commits überarbeiten oder rückgängig machen
+[Commit版本控制](commit版本控制.md)
 
+* [commit版本控制基本原則](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#%E7%89%88%E6%9C%AC%E6%8E%A7%E7%AE%A1%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E5%89%87)
+* [git revert](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#git-revert)
+* [git cherry-pick](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#git-cherry-pick)
 * [git reset](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#git-reset-commit_version)
 * [git commit --amend](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#changing-the-last-commit-git-commit---amend)
 * [git rebase COMMIT](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#rebase)
+
+## 多人遠端合作
+
+- [git clone a fork](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/28.md#%E4%BD%BF%E7%94%A8-fork-%E9%81%8E%E7%9A%84-git-%E9%81%A0%E7%AB%AF%E5%84%B2%E5%AD%98%E5%BA%AB)
+  > ```diff
+  > UserA_Project --- fork ---> UserB_project -- git clone -- userC
+  > UserC -- git push -- userB_project
+  > ```
+- How do we merg userB_project with userA_Project ? [via pull request](https://gitbook.tw/chapters/github/pull-request.html)
+- [Syncing A Fork](https://gitbook.tw/chapters/github/syncing-a-fork.html)
+- [團隊不同分之上的開發之應用](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/27.md#%E9%96%8B%E5%A7%8B%E5%90%84%E8%87%AA%E9%80%B2%E8%A1%8C%E4%B8%8D%E5%90%8C%E7%9A%84%E5%88%86%E6%94%AF%E9%96%8B%E7%99%BC)
+
+### 常見分支開發名稱
+```diff
+- master : 通常存放系統的穩定版本
+- develop : 開發版本
+- feature/[branch_name] : 開發的功能
+- hotfix/[branch_name] : 穩定版本的突發(hot)錯誤 
+```
