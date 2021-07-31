@@ -1,27 +1,27 @@
 # Git
+Auf Grundlange zurückblicken
 
-[Git面試](https://segmentfault.com/a/1190000019315509)  
+## Centralized Version Control(Zentrale Versionsverwaltung) und Distributed Version Control(Verteilte Versionsverwaltung)
+[Reference](https://git-scm.com/book/de/v2/Erste-Schritte-Was-ist-Versionsverwaltung%3F)    
 
-## Centralized Version (Zentrale Versionsverwaltung) und Distributed version control(Verteilte Versionsverwaltung)
-[ref](https://git-scm.com/book/de/v2/Erste-Schritte-Was-ist-Versionsverwaltung%3F)  
-Git : Verteilte Versionverwaltung   
-SVN : Zentrale Versionverwaltung  
-
-<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208200656794.png"/> </div><br>
+![image](https://user-images.githubusercontent.com/68631186/127731972-f44b02bd-493f-408a-b991-9a83a5ec3eda.png)
+- Git : Verteilte Versionverwaltung   
+- SVN : Zentrale Versionverwaltung  
 
 #### Zentrale Versionsverwaltung
 - 安全性問題, mit dem sich viele Leute dann konfrontiert sahen
 - If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything 
-- 每一個Fork支相當於kopieren一份完整的Repository
+- **每一個Branch支相當於kopieren一份完整的Repository**
 
 #### Verteilte Versionsverwaltung
 - Auf diese Weise kann, wenn ein Server beschädigt wird, jedes beliebige Repository von jedem beliebigen Anwenderrechner zurückkopiert werden und der Server so wiederhergestellt werden. Jede Kopie, ein sogenannter Klon (engl. clone), ist ein vollständiges Backup der gesamten Projektdaten.  
 
 
 ## Branching Workflows
-[Branch](https://backlog.com/git-tutorial/tw/stepup/stepup1_1.html)  
+[Branch Einführung](https://backlog.com/git-tutorial/tw/stepup/stepup1_1.html)  
 [Git Objects](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/07.md)   
-Wenn wir ein git repository anlegen
+
+Wenn wir ein Git Repository anlegen
 ```console
 # Create A Git repository 
 cd new_repository
@@ -47,96 +47,123 @@ Es ist auch möglich, den Index zu überspringen und Dateien direkt aus dem Arch
 1. Directly Fetch Modified for Branch
 2. `commit` Modified to Brnach
 ![image](https://user-images.githubusercontent.com/68631186/127697166-273744d4-d796-44d6-b71d-65ec07831035.png)
-```console
-#ist gleichbedeutend mit git add auf allen im letzten Commit bekannten Dateien, gefolgt von einem git commit.
+
+```bash
 git commit -a 
-
-# files erzeugt einen neuen Commit mit dem Inhalt aller aufgeführten Dateien aus dem Arbeitsverzeichnis. Zusätzlich werden die Dateien in den Index kopiert.
-git commit  
-
-#kopiert die Dateien vom letzten Commit sowohl in den Index als auch in das Arbeitsverzeichnis.
-git checkout HEAD -- Dateien 
 ```
+- Es ist gleichbedeutend mit `git add `auf allen **im letzten Commit bekannten Dateien**, gefolgt von einem `git commit`.
+```bash
+git commit files
+```
+- Es erzeugt einen neuen Commit mit dem Inhalt aller aufgeführten Dateien aus dem Arbeitsverzeichnis. Zusätzlich werden die Dateien in den Index kopiert.
+```bash
+git checkout HEAD -- files 
+```
+- Es kopiert die Dateien vom letzten Commit sowohl in den Index als auch in das Arbeitsverzeichnis.
 
-## Branch
-[Branch](https://medium.com/i-think-so-i-live/git%E4%B8%8A%E7%9A%84%E4%B8%89%E7%A8%AE%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B-10f4f915167e)
-[指令](https://marklodato.github.io/visual-git-guide/index-zh-tw.html)
-[doggy8088](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/08.md)  
+## Branch Diagram
+[Branch Usage](BranchUsage.md)  
+- [Branch](https://medium.com/i-think-so-i-live/git%E4%B8%8A%E7%9A%84%E4%B8%89%E7%A8%AE%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B-10f4f915167e)
+- [doggy8088](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/08.md)  
+
 
 使用Pointer將Each Commit連接成一條時間線，其中HEAD指向Current Brnach   
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208203219927.png"/> </div><br>
 
-新建分支是新建一个指针指向时间线的最后一个节点，并让 HEAD 指针指向新分支，表示新分支成为当前分支。
-
+簡單圖解`Branch`,`merge` and `merge`時參照(ref)的狀況
+`git Branch newBranch`是新建一個ref references to 最後(最新的)一個node 
+- [symref `HEAD`](https://github.com/maxwolf621/GitNote/blob/main/BranchUsage.md#symref)references to this branch
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208203142527.png"/> </div><br>
 
-每次提交只会让当前分支指针向前移动，而其它分支指针不会移动。
-
+`git commit -m "..."`後會讓ref of Current Branch向前移動(其他Branch的ref不做改變)  
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208203112400.png"/> </div><br>
 
-合并分支也只需要改变指针即可。
-
+`git merge BRANCH`只是改變ref參造的地方
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208203010540.png"/> </div><br>
 
-## 冲突
+## [Conlict](https://github.com/maxwolf621/GitNote/blob/main/BranchUsage.md#confilict)
+兩個分支同個文件同時修改造成修改後內容不一致導致使用`git merge BRANCH`產生Conflict  
+> ![image](https://user-images.githubusercontent.com/68631186/127732570-470a1cc0-4a1a-4d0e-87e1-660ec34f7e75.png)
 
-当两个分支都对同一个文件的同一行进行了修改，在分支合并时就会产生冲突。
+解決方法
+```bash
+# 選擇使用issue2,或者issue1中其中一方的內容
+# 此時文檔內容會出像兩個issue的diff之處
+++<<<<<<< HEAD
++4
++new Line
++for master
+++=======
++ 24
+++>>>>>>> feature
 
-<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208203034705.png"/> </div><br>
-
-Git 会使用 \<\<\<\<\<\<\< ，======= ，\>\>\>\>\>\>\> 标记出不同分支的内容，只需要把不同分支中冲突部分修改成一样就能解决冲突。
-
+# 例如選擇issue1 (把其它不屬於issue1的內容刪掉)
++4
++new Line
++for master
+# 更改內容後
+git add .
+git commit -m "COMMIT_INFORMATION_NOTE"
 ```
-<<<<<<< HEAD
-Creating a new branch is quick & simple.
-=======
-Creating a new branch is quick AND simple.
->>>>>>> feature1
-```
 
-## Fast forward
-Fast Forward是將mian分支指向合併的fork，但在這種模式下進行分支合併將會丟失丢分支訊息，也就不能在分支歷史上看出分支訊息  
-
-避免此狀況,可以在合并時候加上`--no-ff`參數禁用Fast forward mode, 并且加上`-m` 在合并時產生一個新的commit    
-```
+## Fast Forward Mode(Rebase)
+Fast Forward Mode是將main branch指向要合併的Branch，但在這種模式下進行分支合併將會丟失丢Branch的Information，也就不能在分支歷史上看出分支訊息  
+- 避免此狀況,可以在merge時候加上`--no-ff`來進用禁用Fast Forward mode, 并且加上`-m` 在Merge時產生一個新的commit    
+```console
 $ git merge --no-ff -m "merge with no-ff" dev   
 ```
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208203639712.png"/> </div><br>
 
 ## Stashing
-在一个分Fork上操作之后，如果尚未有將修改commit到Fork上，此時進行切換Fork，則會導致另一个Fork上也能看到新的修改
-> 因為所有分支都共用一个Work Dir
-
-故可以使用`git stash`將當前Fork的修改做Stashing，當前Work dir的所有修改都將會被存到Stack中而不是Work Dir, 此時就可以安全的切换到別的分之上
-
+```diff
+Stash 
+- To store or hide something, especially a large amount:
 ```
+
+當在某個Branch X上進行Operation時，如果還未能將這些tasks on operation的files也就是Modified `commit`到該Branch上 X，就進行切換至另一個Branch Y，則會導致Branch Y也能看到tasks on operation(Modified)  
+> 因為所有分支都共用一个Work Directory  
+
+故可以使用`git stash`將當前Branch X的Modifieds做Stashing，當前Work directory的所有Modified都將會被存到Stack中而不是Work Directory內, 此時就可以安全的切换到別的Branch上
+
+```bash
 $ git stash
 Saved working directory and index state \ "WIP on master: 049d078 added the index file"
 HEAD is now at 049d078 added the index file (To restore them type "git stash apply")
 ```
-
-该功能可以用于 bug 分支的实现。如果当前正在 dev 分支上进行开发，但是此时 master 上有个 bug 需要修复，但是 dev 分支上的开发还未完成，不想立即提交。在新建 bug 分支并切换到 bug 分支之前就需要使用 git stash 将 dev 分支的未提交修改储藏起来。
+- 如果當前正在 Branch dev上進行開發(Devolope)，但此時master上有個bug/task需要處理，由於Branch dev上的tasks未完成，不想立即提交`commit`。這時候在切换到Branch bug之前就需要使用`git stash`將Branch dev上未完成`commit`的Modifieds Stash起來  
 
 ## SSH 
+Git Repository和 Github 中心Repository透過SSH協定做傳輸
 
-- Git Repository和 Github 中心Repository透過SSH協定做傳輸
-
-如果work dir不存在`.ssh`目錄，或`.ssh`文件下沒有`id_rsa`和`id_rsa.pub`的文件則可以利用該command建立ssh key
+如果Work Directory不存在`.ssh`目錄，或`.ssh`文件下沒有`id_rsa`和`id_rsa.pub`的文件則可以利用該command建立ssh key
 ```console
 $ ssh-keygen -t rsa -C "maxwolf@gmail.com"
 ```
-- 生成的public key `id_rsa.pub` 的内容複製到Github Account settings的SSH Keys中
+- 該指令所生成的public key `id_rsa.pub` 的内容複製到Github Account settings的SSH Keys中
 
 ## .gitignore 文件
 
-忽略以下文件：
+[More Details](https://www.atlassian.com/git/tutorials/saving-changes/gitignore)  
 
-- 操作系统自动生成的文件，比如缩略图；
-- 编译生成的中间文件，比如 Java 编译产生的 .class 文件；
-- 自己的敏感信息，比如存放口令的配置文件。
+> [.gitignore Templates](https://github.com/github/gitignore)
 
-不需要全部自己编写，可以到 [https://github.com/github/gitignore](https://github.com/github/gitignore) 中进行查询。
+Told Git 忽略(ignore) 以下文件：
+1. O.S (自動產的Hidden System)的文件
+   > e.g `DS_Store` and `thumbs.db` ...etc
+2. Compiled Code
+   > e.g Java `.class`, `pyc` ...etc
+3. personal IDE config files
+   > e.g. `.idea/workspace.xml` ...etc
+4. files generated at runtime
+   > e.g. `.log`, `.lock` or `.tmp`
+5. dependency caches
+   > the contents of `/node_modules` or `/packages`
+6. Build output directories
+   > e.g. `/bin`, `/out`, or `/target`
+
+  
+
 
 ## Git Command
 
@@ -184,7 +211,7 @@ Date:   Sat Jul 31 00:51:47 2020 +0800
 
 `git diff commit commitId前四碼 commitId2前四碼`
 [commitId絕對名稱](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/10.md)
-```bash
+```console
 $ git diff 2bba sa0a
 diff --git a/ex.txt b/ex.txt
 index d00491f..b8626c4 100644
@@ -194,10 +221,16 @@ index d00491f..b8626c4 100644
 -1
 +4
 ```
-- `---` the older ex.txt
-- `+++` the newer ex.txt
-- `@@ -1 +1 @@`  `-` : older , `+` : new andd 1 means the headlines  
-
-- 最常用的指令是 `git diff HEAD`，因為這代表你要拿「工作目錄」與「當前分支的最新版」進行比對。這種比對方法，不會去比對「索引」的狀態，所以各位必須區分清楚，你到底比對的是甚麼 tree 物件的來源
-- `git diff --cached HEAD`，這個語法代表的是「當前的索引狀態」與「當前分支的最新版」進行比對。這種比對方法，不會去比對「工作目錄」的檔案內容，而是直接去比對「索引」與「目前最新版」之間的差異，這有助於你在執行 git commit 之前找出那些變更的內容，也就是你將會有哪些變更被建立版本的意思。
-- `git diff commit1 commit2` 最常用的是 `git diff HEAD HEAD^` 這個命令可以跳過「索引」與「工作目錄」的任何變更，而是直接比對特定兩個版本。事實上 Git 是比對特定兩個版本 commit 物件內的那個 tree 物件。  
+```diff
+! `---`  : the older ex.txt
+! `+++` : the newer ex.txt
+- `@@ -1 +1 @@`  
+- `-` : older , `+` : newer 
+-  1 : means the total of headlines  
+```
+- 最常用的指令是 `git diff HEAD`，**因為這代表你要拿「工作目錄」與「當前分支的最新版」進行比對**
+   > 這種比對方法，不會去比對「索引」的Status，所以各位必須區分清楚，你到底比對的是甚麼 tree 物件的來源
+- `git diff --cached HEAD`，**這個語法代表的是「當前的索引狀態」與「當前分支的最新版」進行比對**
+   > 這種比對方法，不會去比對「工作目錄」的檔案內容，而是直接去比對「索引」與「目前最新版」之間的差異，這有助於你在執行 git commit 之前找出那些變更的內容，也就是你將會有哪些變更被建立版本的意思。
+- `git diff commit1 commit2` 最常用的是 `git diff HEAD HEAD^` 這個命令可以**跳過「索引」與「工作目錄」的任何變更**，而是直接比對特定兩個版本
+   > 事實上 Git 是比對特定兩個版本 commit 物件內的那個 tree 物件。  
