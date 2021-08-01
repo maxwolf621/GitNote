@@ -134,7 +134,13 @@ the first version
 
 ![image](https://user-images.githubusercontent.com/68631186/127764031-90df1eba-72f0-4f0b-a40b-d9c1b7d8ac08.png)  
 
-- [According to this](https://stackoverflow.com/questions/2221658/whats-the-difference-between-head-and-head-in-git)Symbol:  `^` 跟 `~`   
+- 比較常見的 Git Repository，預設只會有一個「root commit 物件」，也就是我們最一開始建立的那個版本，又稱「初始送交」(`Initial Commit`)  
+  > 「在一個 Git 儲存庫中，所有的 commit 物件中，除了第一個 commit 物件外，任何其他的 commit 物件一定都會有一個以上的上層 commit 物件(parent commit)」
+  >> 為什麼有可能有「一個以上」的上層 commit 物件呢？因為你很有可能會合併兩個以上的分支到另一個分支裡，所以合併完成後的那個 commit 物件就會有多個 parent commit 物件。
+  >> 用`git cat-file -p [object_id]`來取得最前面兩筆 commit 物件的內容，藉此了解到每個 commit 物件確實一定會有 parent 屬性，並指向上層 commit 物件的絕對名稱，唯獨第一筆 commit 物件不會有 parent 屬性  
+
+
+- [According to this](https://stackoverflow.com/questions/2221658/whats-the-difference-between-head-and-head-in-git)   
   > `~` : your ancestor  
   > `^` : your parents  
 ```diff
@@ -159,9 +165,8 @@ H = D^2  = B^^2    = A^^^2  = A~2^2
 I = F^   = B^3^    = A^^3^
 J = F^2  = B^3^2   = A^^3^2
 ```
- 
 - 如果要找到 HEAD 的前一版本，我們會使用 `HEAD~` 或 `HEAD~1` 來表示「HEAD 這個 commit 物件的前一版」
-- 如果你要找出另一個`f2e`分支的前兩個版本 (不含`f2e`的`HEAD`版本)，你則可以用`f2e~2`或用`f2e~~`
+- 如果要找出另一個`f2e`分支的前兩個版本 (不含`f2e`的`HEAD`版本)，你則可以用`f2e~2`或用`f2e~~`
 
 在沒有**分支**與**合併**的儲存庫中，關於`^1`與`~1`所表達的意思是完全相同的，都代表「前一版」
 > 事實上在有分支與合併的儲存庫中，他們有不同的意義
@@ -171,20 +176,14 @@ Both `~` and `^` on their own refer to the parent of the commit (`~~` and `^^` b
 >> `~2` means up two levels in the hierarchy, via the first parent if a commit has more than one parent  
 >> `^2` means the second parent where a commit has more than one parent (i.e. because it's a merge)  
 
-比較常見的 Git 儲存庫，預設只會有一個「根 commit 物件」，也就是我們最一開始建立的那個版本，又稱「初始送交」(Initial Commit)。
-> 「在一個 Git 儲存庫中，所有的 commit 物件中，除了第一個 commit 物件外，任何其他的 commit 物件一定都會有一個以上的上層 commit 物件(parent commit)」
->> 為什麼有可能有「一個以上」的上層 commit 物件呢？因為你很有可能會合併兩個以上的分支到另一個分支裡，所以合併完成後的那個 commit 物件就會有多個 parent commit 物件。
-
-我們用個簡單的例子來證明這點，我們用 git cat-file -p [object_id] 來取得最前面兩筆 commit 物件的內容，藉此了解到每個 commit 物件確實一定會有 parent 屬性，並指向上層 commit 物件的絕對名稱，唯獨第一筆 commit 物件不會有 parent 屬性。
-
-如果你有一個ref為C，若要找到它的第一個上層 commit 物件
+如果你有一個ref為`C`，若要找到它的第一個上層 commit 物件
 ```diff
 C^
 C^1
 C~
 C~1
 ```
-如果你要找到它的第二個上層 commit 物件 (在沒有合併的狀況下)
+如果你要找到`C`的第二個上層 commit 物件 (在沒有合併的狀況下)
 ```diff
 C^^
 C^1^1
