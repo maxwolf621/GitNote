@@ -277,6 +277,7 @@ That way, the maintainer doesn’t have to do any integration work — just 
 
 ![image](https://user-images.githubusercontent.com/68631186/127771473-eaf43412-5841-4c4a-ad03-8f1192450adb.png)
 - bugFix commits and merges what master refs to  
+
 ![image](https://user-images.githubusercontent.com/68631186/127771480-56575fed-0915-44a7-961f-23c59234f7fc.png)
 - 在做rebase時，git實際動作是複製C2與C3這兩個commit並把複製品接到master上面，然後標註C3'是bugFix分支
 ### Rebase 能做的事
