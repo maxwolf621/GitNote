@@ -45,7 +45,7 @@
   > 4. 短期內無緊急出新版壓力的時候,`git merge` master 到 stable，避免兩者差異愈來愈大。
 
 
-Example For Branch
+#### Example For Branch
 [refname xxx not found](https://stackoverflow.com/questions/18382986/git-rename-local-branch-failed)
 ```console
 error: refname refs/heads/HEAD not found
@@ -58,9 +58,11 @@ You must checkout a new branch to associate it with the current commit:
 $ git checkout -b NEW_BRANCH
 ```
 
-### [fast forward](https://medium.com/@fcamel/%E4%BD%95%E6%99%82%E8%A9%B2%E7%94%A8-git-merge-no-ff-d765c3a6bef5)
+### [`git merge CommitId`的fast forward mode](https://medium.com/@fcamel/%E4%BD%95%E6%99%82%E8%A9%B2%E7%94%A8-git-merge-no-ff-d765c3a6bef5)
 
 ![image](https://user-images.githubusercontent.com/68631186/127765463-8b5884a8-45f3-475c-b9d7-cbf89198677e.png)
+
+### Usage For Rebase And Merge
 ```diff
 git checkout master
 - (master)git merge stable #commit C8 version
@@ -147,23 +149,24 @@ git remote add origin https://github.com/doggy8088/sandbox-empty2.git
 - `refs/remotes/origin/*` : 「目的參照規格」，代表一個位於本地儲存庫的本地追蹤分支
 
 
-### `git push`非本地master的Branch
-一個工作目錄下的本地儲存庫，可能會定義有多個遠端儲存庫。
-> 當你想將非main分支透過`git push`推送到Remote Repository時，Git 可能不知道你到底想推送到哪裡，所以我們要另外定義本地分支與遠端儲存庫之間的關係。
+### `git push`非本地master的Branch   
+一個工作目錄下的本地儲存庫，可能會定義有多個遠端儲存庫   
+> 當你想將非main分支透過`git push`推送到Remote Repository時，Git 可能不知道你到底想推送到哪裡，所以我們要另外定義本地分支與遠端儲存庫之間的關係   
 
-For example 
-建立一個 FixForCRLF 本地分支，直接透過 git push 無法推送成功，你必須輸入完整的`git push origin FixForCRLF`指令才能將本地分支推送上去，原因就出在你並沒有設定「本地分支」與「遠端儲存庫」之間的預設對應。
-要將本地分支(如FixForCRLE)建立起跟遠端儲存庫的對應關係，只要在`git push`的時候加上`--set-upstream`參數，即可將本地分支(FixForCRLF)註冊進`.git\config`設定檔，之後再用`git push`就可以順利的自動推送上去。  
+#### For example     
+建立一個 FixForCRLF 本地分支，直接透過 git push 無法推送成功，你必須輸入完整的`git push origin FixForCRLF`指令才能將本地分支推送上去，原因就出在你並沒有設定「本地分支」與「遠端儲存庫」之間的預設對應    
+要將本地分支(如FixForCRLE)建立起跟遠端儲存庫的對應關係，只要在`git push`的時候加上`--set-upstream`參數，即可將本地分支(FixForCRLF)註冊進`.git\config`設定檔，之後再用`git push`就可以順利的自動推送上去         
 ```console
 [branch "FixForCRLF"]
 	remote = origin
 	merge = refs/heads/FixForCRLF
 ```
 
-如果你今天發生了衝突狀況，而又不知道如何解決，因為版本尚未被成功合併，所以你可以執行以下指令「重置」到目前的 HEAD 版本：
-`git reset --hard HEAD`
+如果你今天發生了衝突(Conflict)狀況，而又不知道如何解決，因為版本尚未被成功合併，所以你可以執行以下指令「重置」到目前的 HEAD 版本：
+- `git reset --hard HEAD`
+
 如果你今天成功的合併了，但又想反悔這次的合併動作，那麼你還是可以執行以下指令「重置」到合併前的版本狀態，也就是重置到 ORIG_HEAD 這個版本：
-`git reset --hard ORIG_HEAD`
+- `git reset --hard ORIG_HEAD`
 
 ## Generierte Commits überarbeiten oder rückgängig machen
 [Commit版本控制](commit版本控制.md)  
@@ -190,10 +193,10 @@ For example
 	>```
 - [git clone a fork](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/28.md#%E4%BD%BF%E7%94%A8-fork-%E9%81%8E%E7%9A%84-git-%E9%81%A0%E7%AB%AF%E5%84%B2%E5%AD%98%E5%BA%AB)
   > ```diff
-  > + UserA_Project --- fork ---> UserB_project -- git clone --> userC
-  > - UserC --> git push --> userB_project
+  > + UserA_Project --- fork ---> In_UserB -- git clone --> In_UserC
+  > - In_UserC --> git push --> In_UserB
   > ```
-- How do we merg userB_project with userA_Project ? [Via `pull request`](https://gitbook.tw/chapters/github/pull-request.html)
+- How do we merg In_UserB with UserA_Project ? [Via `pull request`](https://gitbook.tw/chapters/github/pull-request.html)
 - [Syncing A Fork(From Remote)](https://gitbook.tw/chapters/github/syncing-a-fork.html)
 - [團隊不同Branch上的開發之應用](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/27.md#%E9%96%8B%E5%A7%8B%E5%90%84%E8%87%AA%E9%80%B2%E8%A1%8C%E4%B8%8D%E5%90%8C%E7%9A%84%E5%88%86%E6%94%AF%E9%96%8B%E7%99%BC)
 
