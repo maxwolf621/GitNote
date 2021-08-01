@@ -15,15 +15,14 @@ git clone https://github.com/maxwolf621/OauthUser
 # Once the repo is cloned, you need to do two things to creat a Fork #
 ######################################################################
 
-
 # 1. Create a new branch by issuing the command: 
 git checkout -b new_branch
+# Now you are in new_branch
 
 # 2. Create a new remote for the `upstream repo` with the command:
 #    In this case, "upstream repo" refers to the original repo you created your fork from.
 git remote add upstream https://github.com/maxwolf621/OauthUser
-#### Now you can make changes to the code. 
-
+#----Now you can make changes to the code.--- 
 
 #################################################################################################################
 # delete file and push it to github                                                                             #
