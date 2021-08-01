@@ -8,8 +8,8 @@
 # Note 
 
 - [What is git](https://git-scm.com/book/zh/v2/%E8%B5%B7%E6%AD%A5-Git-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F)
-- [Git](GitQuickReview.md)
-
+- [Git Quick Review](GitQuickReview.md)
+- [`git diff`](https://github.com/maxwolf621/GitNote/blob/main/GitQuickReview.md#git-diff)
 ## Branch
 ```diff
 #display 所有分支
