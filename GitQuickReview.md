@@ -37,7 +37,7 @@ git init
 - `git commit -m`把Stage Area的Modified `commit`到Current Branch
   > Es speichert einen Schnappschuss des Indexes als Commit im Projektarchiv.
   > After `commit`, Stage Area會將Stage File(s)清除 
-- `git reset -- files` 使用目前Brnach上的Modified在Stage Area內的Stage Files，用来撤銷(withdraw)最後一次的`git add files`
+- `git reset -- files` 使用目前Branch上的Modified在Stage Area內的Stage Files，用来撤銷(withdraw)最後一次的`git add files`
   > es entfernt geänderte Dateien aus dem Index; dazu werden die Dateien des letzten Commits in den Index kopiert. Damit kannst du ein `git add Dateien` rückgängig machen. Mit `git reset` kannst du alle geänderten Dateien aus dem Index entfernen.
 - `git checkout -- files` 使用Stage Area的Modified更新Work Directory撤銷(withdraw)本地Modified
    >  kopiert Dateien aus dem Index in das Arbeitsverzeichnis. Damit kannst du die Änderungen im Arbeitsverzeichnis verwerfen.  
@@ -45,7 +45,7 @@ git init
 
 Es ist auch möglich, den Index zu überspringen und Dateien direkt aus dem Archiv (history) auszuchecken oder Änderungen im Arbeitsverzeichnis direkt zu committen
 1. Directly Fetch Modified for Branch
-2. `commit` Modified to Brnach
+2. `commit` Modified to Branch
 ![image](https://user-images.githubusercontent.com/68631186/127697166-273744d4-d796-44d6-b71d-65ec07831035.png)
 
 ```bash
@@ -67,7 +67,7 @@ git checkout HEAD -- files
 - [doggy8088](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/08.md)  
 
 
-使用Pointer將Each Commit連接成一條時間線，其中HEAD指向Current Brnach   
+使用Pointer將Each Commit連接成一條時間線，其中HEAD指向Current Branch   
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208203219927.png"/> </div><br>
 
 簡單圖解`Branch`,`merge` and `merge`時參照(ref)的狀況
