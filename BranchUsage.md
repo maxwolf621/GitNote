@@ -227,6 +227,10 @@ first-Tag
 
 ## Merge
 [Note Taking](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/17.md)  
+
+
+![image](https://user-images.githubusercontent.com/68631186/127764834-c8774d82-c305-4ec9-9ed9-6b4f265e8ad3.png)
+
 ```console
 pi@JianMayer:~/Desktop/diffExample $ git checkout -b feature
 Zu neuem Branch 'feature' gewechselt
