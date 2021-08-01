@@ -15,11 +15,10 @@ git clone https://github.com/maxwolf621/OauthUser
 # Once the repo is cloned, you need to do two things to creat a Fork #
 ######################################################################
 
-#** 
+
 # 1. Create a new branch by issuing the command: 
 git checkout -b new_branch
 
-#**
 # 2. Create a new remote for the `upstream repo` with the command:
 #    In this case, "upstream repo" refers to the original repo you created your fork from.
 git remote add upstream https://github.com/maxwolf621/OauthUser
@@ -37,10 +36,12 @@ git rm fileName.filetype
 git commit -m "remove"
 git push origin branch_name
 
-#* To remove the file only from the Git repository and not remove it from the filesystem, use `--cached`
+# To remove the file only from the Git repository 
+# and not remove it from the filesystem, use `--cached` (Clear Index)
 git rm --cached fileName.filetype
 git commit -m "remove"
-#* And to push changes to remote repo
+
+# And to push changes to remote repo
 git push origin branch_name
 
 
@@ -51,9 +52,9 @@ git push origin branch_name
 
 it reset HEAD
 #* Should do it. If you don't have any uncommitted changes that you care about, then
-git reset --hard HEAD  #* should forcibly reset everything to your last commit. 
+git reset --hard HEAD  # this should forcibly reset everything to your last commit. 
 
-#* Coz git reset --hard HEAD destroys any useful changes you have made in parent directories of the current working directory.
+#* Coz `git reset --hard HEAD` destroys any useful changes you have made in parent directories of the current working directory.
 #* If you do have uncommitted changes, but the first command doesn't work, then save your uncommitted changes with git stash:
 git stash
 
