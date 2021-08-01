@@ -168,7 +168,7 @@ mian_A--main_B------------------------------->main_C-->main_branch1_B
 ! 使用`git cherry-pick`時，當前「工作目錄」必須是乾淨，工作目錄下的Stage Area不能有任何準備要 commit 的檔案 (staged files) 在裡面，否則將會無法執行。
 ```
 
-## `git reset COMMIT_VERSION`
+## `git reset COMMITID`
 
 例如我們有三個版本  
 ![image](https://user-images.githubusercontent.com/68631186/127735620-a25ecda4-3c0a-462c-baf8-a3e071fca411.png)  
@@ -273,9 +273,12 @@ That way, the maintainer doesn’t have to do any integration work — just 
 >> Rebasing replays changes from one line of work onto another in the order they were introduced(把某Branch一系列commits有時間順序性的依次應用到rebase的Branch上), whereas merging takes the endpoints and merges them together(將branchs的endpoints結合在一起).
 
 
-### More Interesting Rebases
-You can also have your rebase replay on something other than the rebase target branch. Take a history like A history with a topic branch off another topic branch, for example. You branched a topic branch (server) to add some server-side functionality to your project, and made a commit. Then, you branched off that to make the client-side changes (client) and committed a few times. Finally, you went back to your server branch and did a few more commits.
+[DIAGRAM](https://dannyliu.me/%E4%BD%BF%E7%94%A8git-rebase%E4%BE%86%E5%90%88%E4%BD%B5%E5%88%86%E6%94%AF/)
 
+![image](https://user-images.githubusercontent.com/68631186/127771473-eaf43412-5841-4c4a-ad03-8f1192450adb.png)
+- bugFix commits and merges what master refs to  
+![image](https://user-images.githubusercontent.com/68631186/127771480-56575fed-0915-44a7-961f-23c59234f7fc.png)
+- 在做rebase時，git實際動作是複製C2與C3這兩個commit並把複製品接到master上面，然後標註C3'是bugFix分支
 ### Rebase 能做的事
 - 將某個分支當成自己目前分支的「基礎版本」。除了這件事以外，你還可以用來修改某個分支中「特定一段」歷程的紀錄，你可以做的事情包括：
 ```diff
