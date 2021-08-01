@@ -7,9 +7,8 @@
 
 # Note 
 
-## Basic
 - [What is git](https://git-scm.com/book/zh/v2/%E8%B5%B7%E6%AD%A5-Git-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F)
-- [Git](Git.md)
+- [Git](GitQuickReview.md)
 
 ## Branch
 ```diff
@@ -32,10 +31,43 @@
 - git log
 ```
 - [Diagram Branch](https://git-scm.com/book/zh-tw/v2/%E4%BD%BF%E7%94%A8-Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E5%92%8C%E5%90%88%E4%BD%B5%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95)
-- [Branch Usage](BranchUsage.md)
+
+### [Branch Usage](BranchUsage.md)
+- [Git's Ref](https://github.com/maxwolf621/GitNote/blob/main/BranchUsage.md#%E5%8F%83%E7%85%A7ref%E5%90%8D%E7%A8%B1)  
+- [smyref && custom ref](https://github.com/maxwolf621/GitNote/blob/main/BranchUsage.md#symref)
+- [ref's `~` and `^` ](https://github.com/maxwolf621/GitNote/blob/main/BranchUsage.md#%E7%9B%B8%E5%B0%8D%E5%90%8D%E7%A8%B1%E8%A1%A8%E7%A4%BA)
+- [tag](https://github.com/maxwolf621/GitNote/blob/main/BranchUsage.md#tag)  
+- [git merge COMMITID](https://github.com/maxwolf621/GitNote/blob/main/BranchUsage.md#merge)  
+  > 使用`git merge`的情境(assum master開發版本,stable客戶使用穩定版本)
+  > 1. (stable需要hotfix) `cherry-pick master` 緊急的修改到 stable。
+  > 2. 或是直接在 stable 修 bug。
+  > 3. `git merge stable` 回到 master，降低日後 merge 的複雜度。
+  > 4. 短期內無緊急出新版壓力的時候,`git merge` master 到 stable，避免兩者差異愈來愈大。
+
+
+
+### [fast forward](https://medium.com/@fcamel/%E4%BD%95%E6%99%82%E8%A9%B2%E7%94%A8-git-merge-no-ff-d765c3a6bef5)
+
+![image](https://user-images.githubusercontent.com/68631186/127765463-8b5884a8-45f3-475c-b9d7-cbf89198677e.png)
+```diff
+git checkout master
+- (master)git merge stable #commit C8 version
+
+git checkout stable
+- (stable)git merge master # ref to c8 
+```
+![image](https://user-images.githubusercontent.com/68631186/127765603-849ade88-a225-4df0-b23f-202dc6b2689b.png)
+
+```diff
+git checkout master
+(master)git merge stable #commit C8 version
+
+(master)git checkout stable
+(stable)git merge master --no--ff #comit C9 version
+```
+![image](https://user-images.githubusercontent.com/68631186/127765616-e18bd517-e69c-4984-92fc-f638b12ae27e.png)
 
 ## Remote and Clone
-- [Clone]()
 ```diff
 # Clone the repository into local storage
 # 將遠端儲存庫複製到本地，並建立工作目錄與本地儲存庫 (就是 .git 資料夾)
@@ -71,7 +103,7 @@ git pull origin master --allow-unrelated-histories
 ## 註冊遠端儲存庫
 [Remote](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/25.md)    
 
-手動註冊一個遠端分支
+### 註冊一個遠端分支到本地分支
 ```console
 git remote add origin https://github.com/doggy8088/sandbox-empty2.git
 ```
@@ -85,9 +117,9 @@ git remote add origin https://github.com/doggy8088/sandbox-empty2.git
 	url = https://github.com/jquery/jquery.git
 	fetch = +refs/heads/*:refs/remotes/jquery/*
 ```
+- `git ls-remote` 或 `git ls-remote origin` 即可列出所有遠端分支
+- `branch -a`會列出所有遠端分支以及本地追蹤
 
-`git ls-remote` 或 `git ls-remote origin` 即可列出所有遠端分支
-`branch -a`會列出所有遠端分支以及本地追蹤
 ### refsepc
 假設設定一個refspec為下
 ```console
@@ -103,9 +135,9 @@ git remote add origin https://github.com/doggy8088/sandbox-empty2.git
 - `refs/remotes/origin/*` : 「目的參照規格」，代表一個位於本地儲存庫的本地追蹤分支
 
 
-### `git push`非本地main的Branch
+### `git push`非本地master的Branch
 一個工作目錄下的本地儲存庫，可能會定義有多個遠端儲存庫。
-> 當你想將非main分支透過`git push`推送到遠端時，Git 可能不知道你到底想推送到哪裡，所以我們要另外定義本地分支與遠端儲存庫之間的關係。
+> 當你想將非main分支透過`git push`推送到Remote Repository時，Git 可能不知道你到底想推送到哪裡，所以我們要另外定義本地分支與遠端儲存庫之間的關係。
 
 For example 
 建立一個 FixForCRLF 本地分支，直接透過 git push 無法推送成功，你必須輸入完整的`git push origin FixForCRLF`指令才能將本地分支推送上去，原因就出在你並沒有設定「本地分支」與「遠端儲存庫」之間的預設對應。
@@ -116,39 +148,39 @@ For example
 	merge = refs/heads/FixForCRLF
 ```
 
-[多人共用Remote](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/26.md)當某一方的本地無法`git push`modified到遠端時
-```diff
-# fetch遠端所有分支, merge遠端的分支並merge
-git fetch
-git merge origin/master
-# 直接取代fit fetch跟git merge
-git pull
-```
 如果你今天發生了衝突狀況，而又不知道如何解決，因為版本尚未被成功合併，所以你可以執行以下指令「重置」到目前的 HEAD 版本：
 `git reset --hard HEAD`
 如果你今天成功的合併了，但又想反悔這次的合併動作，那麼你還是可以執行以下指令「重置」到合併前的版本狀態，也就是重置到 ORIG_HEAD 這個版本：
 `git reset --hard ORIG_HEAD`
 
 ## Generierte Commits überarbeiten oder rückgängig machen
-[Commit版本控制](commit版本控制.md)
+[Commit版本控制](commit版本控制.md)  
 
-* [commit版本控制基本原則](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#%E7%89%88%E6%9C%AC%E6%8E%A7%E7%AE%A1%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E5%89%87)
-* [git revert](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#git-revert)
+* [commit版本控制基本原則](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#%E7%89%88%E6%9C%AC%E6%8E%A7%E7%AE%A1%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E5%89%87)  
+* [git revert](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#git-revert)  
 * [git cherry-pick](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#git-cherry-pick)
 * [git reset](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#git-reset-commit_version)
 * [git commit --amend](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#changing-the-last-commit-git-commit---amend)
 * [git rebase COMMIT](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#rebase)
 
 ## 多人遠端合作
-
+- [多人共用Remote Repository](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/26.md)當某一方的本地無法`git push`modified到遠端時
+	>```diff
+	># fetch遠端所有分支, merge遠端的分支並merge
+	>- git fetch
+	>- git merge origin/master
+	>
+	># 直接取代fit fetch跟git merge
+	>- git pull
+	>```
 - [git clone a fork](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/28.md#%E4%BD%BF%E7%94%A8-fork-%E9%81%8E%E7%9A%84-git-%E9%81%A0%E7%AB%AF%E5%84%B2%E5%AD%98%E5%BA%AB)
   > ```diff
-  > UserA_Project --- fork ---> UserB_project -- git clone -- userC
-  > UserC -- git push -- userB_project
+  > + UserA_Project --- fork ---> UserB_project -- git clone --> userC
+  > - UserC --> git push --> userB_project
   > ```
-- How do we merg userB_project with userA_Project ? [via pull request](https://gitbook.tw/chapters/github/pull-request.html)
-- [Syncing A Fork](https://gitbook.tw/chapters/github/syncing-a-fork.html)
-- [團隊不同分之上的開發之應用](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/27.md#%E9%96%8B%E5%A7%8B%E5%90%84%E8%87%AA%E9%80%B2%E8%A1%8C%E4%B8%8D%E5%90%8C%E7%9A%84%E5%88%86%E6%94%AF%E9%96%8B%E7%99%BC)
+- How do we merg userB_project with userA_Project ? [Via `pull request`](https://gitbook.tw/chapters/github/pull-request.html)
+- [Syncing A Fork(From Remote)](https://gitbook.tw/chapters/github/syncing-a-fork.html)
+- [團隊不同Branch上的開發之應用](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/27.md#%E9%96%8B%E5%A7%8B%E5%90%84%E8%87%AA%E9%80%B2%E8%A1%8C%E4%B8%8D%E5%90%8C%E7%9A%84%E5%88%86%E6%94%AF%E9%96%8B%E7%99%BC)
 
 ### 常見分支開發名稱
 ```diff
