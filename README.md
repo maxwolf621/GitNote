@@ -45,6 +45,18 @@
   > 4. 短期內無緊急出新版壓力的時候,`git merge` master 到 stable，避免兩者差異愈來愈大。
 
 
+Example For Branch
+[refname xxx not found](https://stackoverflow.com/questions/18382986/git-rename-local-branch-failed)
+```console
+error: refname refs/heads/HEAD not found
+fatal: Branch rename failed
+```
+- Becaause You are currently in detached head state. 
+
+You must checkout a new branch to associate it with the current commit:
+```bash
+$ git checkout -b NEW_BRANCH
+```
 
 ### [fast forward](https://medium.com/@fcamel/%E4%BD%95%E6%99%82%E8%A9%B2%E7%94%A8-git-merge-no-ff-d765c3a6bef5)
 
@@ -162,6 +174,9 @@ For example
 * [git reset](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#git-reset-commit_version)
 * [git commit --amend](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#changing-the-last-commit-git-commit---amend)
 * [git rebase COMMIT](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#rebase)
+    > [Example : Somebody else has `push`ed to master already, and your `commit` is behind. Therefore you have to fetch, merge the changeset, and then you'll be able to push again.](https://github.com/maxwolf621/GitNote/blob/main/rebaseExample.sh)  
+    >> [! [rejected] master -> master (fetch first)](https://stackoverflow.com/questions/28429819/rejected-master-master-fetch-first)   
+     
 
 ## 多人遠端合作
 - [多人共用Remote Repository](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/26.md)當某一方的本地無法`git push`modified到遠端時
