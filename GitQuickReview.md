@@ -81,8 +81,10 @@ git checkout HEAD -- files
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208203010540.png"/> </div><br>
 
 ## [Conlict](https://github.com/maxwolf621/GitNote/blob/main/BranchUsage.md#confilict)
-兩個分支同個文件同時修改造成修改後內容不一致導致使用`git merge BRANCH`產生Conflict  
-> ![image](https://user-images.githubusercontent.com/68631186/127732570-470a1cc0-4a1a-4d0e-87e1-660ec34f7e75.png)
+
+兩個分支同個文件同時修改造成修改後內容不一致導致使用`git merge BRANCH`時候產生Conflict  
+
+![image](https://user-images.githubusercontent.com/68631186/127732570-470a1cc0-4a1a-4d0e-87e1-660ec34f7e75.png)
 
 解決方法
 ```bash
@@ -106,12 +108,11 @@ git commit -m "COMMIT_INFORMATION_NOTE"
 ```
 
 ## Fast Forward Mode(Rebase)
-Fast Forward Mode是將main branch指向要合併的Branch，但在這種模式下進行分支合併將會丟失丢Branch的Information，也就不能在分支歷史上看出分支訊息  
-- 避免此狀況,可以在merge時候加上`--no-ff`來進用禁用Fast Forward mode, 并且加上`-m` 在Merge時產生一個新的commit    
+Fast Forward Mode是將(brainch)main指向要合併的Branch，但在這種模式下進行分支合併將會丟失丢分支的Information，也就不能在分支歷史上看出個別分支訊息  
+要避免這種狀況,可以在`merge`時候加上`--no-ff`禁用Fast Forward mode, 再且加上`-m` 則處理Merge時會產生一個新的Commit    
 ```console
 $ git merge --no-ff -m "merge with no-ff" dev   
 ```
-
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208203639712.png"/> </div><br>
 
 ## Stashing
@@ -119,27 +120,24 @@ $ git merge --no-ff -m "merge with no-ff" dev
 Stash 
 - To store or hide something, especially a large amount:
 ```
+當在某個Branch X上進行維護時，未能將Modified Files做commit時，就進行切換至另一個Branch Y，會導致Y也能看到X上面的Modified Files,這是因為所有Branchs都共用一个Work Directory    
+所以可以使用`git stash`將當前Branch X的上未commit的Modified Files做Stashing，此時Work directory的所有Modified Files都將會被存到Stack中而不是Work Directory內, 就可以安全的切换到別的Branch上   
 
-當在某個Branch X上進行Operation時，如果還未能將這些tasks on operation的files也就是Modified `commit`到該Branch上 X，就進行切換至另一個Branch Y，則會導致Branch Y也能看到tasks on operation(Modified)  
-> 因為所有分支都共用一个Work Directory  
-
-故可以使用`git stash`將當前Branch X的Modifieds做Stashing，當前Work directory的所有Modified都將會被存到Stack中而不是Work Directory內, 此時就可以安全的切换到別的Branch上
-
+For example假如目前正在(Branch)dev上進行開發(Devolope)，但此時(Branch)main上有個bug/task需要處理, 由於dev上的tasks目前未完成, 又不想立即提交`commit`
+則我們在切换到Master處理bug之前就需要利用`git stash`將dev上未完成還沒有commit的Modified Data `stash`起來  　　
 ```bash
 $ git stash
 Saved working directory and index state \ "WIP on master: 049d078 added the index file"
 HEAD is now at 049d078 added the index file (To restore them type "git stash apply")
 ```
-- 如果當前正在 Branch dev上進行開發(Devolope)，但此時master上有個bug/task需要處理，由於Branch dev上的tasks未完成，不想立即提交`commit`。這時候在切换到Branch bug之前就需要使用`git stash`將Branch dev上未完成`commit`的Modifieds Stash起來  
 
 ## SSH 
-Git Repository和 Github 中心Repository透過SSH協定做傳輸
-
-如果Work Directory不存在`.ssh`目錄，或`.ssh`文件下沒有`id_rsa`和`id_rsa.pub`的文件則可以利用該command建立ssh key
+Git Repository和 Github 中心Repository透過SSH協定做傳輸   
+如果Work Directory不存在`.ssh`目錄，或`.ssh`文件下沒有`id_rsa`和`id_rsa.pub`的文件則可以利用該command建立ssh key   
 ```console
 $ ssh-keygen -t rsa -C "maxwolf@gmail.com"
 ```
-- 該指令所生成的public key `id_rsa.pub` 的内容複製到Github Account settings的SSH Keys中
+- 將該指令所生成的public key `id_rsa.pub`的内容複製到Github Account settings中的SSH Keys中
 
 ## .gitignore 文件
 
