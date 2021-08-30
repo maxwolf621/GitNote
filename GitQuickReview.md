@@ -1,5 +1,4 @@
-# Git
-Auf Grundlange zurückblicken
+# Git Auf Grundlange zurückblicken
 
 ## Centralized Version Control(Zentrale Versionsverwaltung) und Distributed Version Control(Verteilte Versionsverwaltung)
 [Reference](https://git-scm.com/book/de/v2/Erste-Schritte-Was-ist-Versionsverwaltung%3F)    
