@@ -260,11 +260,6 @@ pi@JianMayer:~/Desktop/diffExample $ cat ex.txt
 4
 new Line
 for master
-pi@JianMayer:~/Desktop/diffExample $ git staus
-git: 'staus' ist kein Git-Befehl. Siehe 'git --help'.
-
-Der \u00e4hnlichste Befehl ist
-	status
 pi@JianMayer:~/Desktop/diffExample $ git add .
 pi@JianMayer:~/Desktop/diffExample $ git commit -m "from master"
 ```
@@ -320,11 +315,9 @@ pi@JianMayer:~/Desktop/diffExample $ git ls-files -u
 100644 a45fd52cc5891570d6299fab38643103c3955474 3	ex.txt
 ```
 - 最爛的解決方法就是直接`git add .`後在`git commit`
-  > 此舉會造成conflict的問題訊息也會一併`git commit`
-  >> 可利用`git reset --hard ORIG_HEAD`回到`git commit`之前的一版 
+  > 但會造成conflict的問題訊息也會一併`git commit`(可利用`git reset --hard ORIG_HEAD`回到`git commit`之前的一版)  
 
 #### Best Solution For Conflict
-
 手動解決
 - 選擇是要來自`feature`的`ex.txt`內容還是`master`的`ex.txt`內容
 ```console
