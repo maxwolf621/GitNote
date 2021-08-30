@@ -20,6 +20,10 @@
 [Branch Einführung](https://backlog.com/git-tutorial/tw/stepup/stepup1_1.html)  
 [Git Objects](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/07.md)   
 
+
+![image](https://user-images.githubusercontent.com/68631186/131378392-cf52c378-b7f0-43a3-9eec-a1ccfb549f10.png)
+
+
 Wenn wir ein Git Repository anlegen
 ```console
 # Create A Git repository 
