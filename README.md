@@ -38,15 +38,12 @@
 - [ref's `~` and `^` ](https://github.com/maxwolf621/GitNote/blob/main/BranchUsage.md#%E7%9B%B8%E5%B0%8D%E5%90%8D%E7%A8%B1%E8%A1%A8%E7%A4%BA)
 - [tag](https://github.com/maxwolf621/GitNote/blob/main/BranchUsage.md#tag)  
 - [git merge COMMITID](https://github.com/maxwolf621/GitNote/blob/main/BranchUsage.md#merge)  
-  > 使用`git merge`的情境(assum master開發版本,stable客戶使用穩定版本)
-  > 1. (stable需要hotfix) `cherry-pick master` 緊急的修改到 stable。
-  > 2. 或是直接在 stable 修 bug。
-  > 3. `git merge stable` 回到 master，降低日後 merge 的複雜度。
-  > 4. 短期內無緊急出新版壓力的時候,`git merge` master 到 stable，避免兩者差異愈來愈大。
+  > 使用`git merge`的情境(假設分支master(或main)為開發版本,分支stable客戶使用穩定版本)如下
+  > 1. (當stable需要hotfix) 要使用`cherry-pick master` 緊急的修改到分支stable或是直接在stable修bug
+  > 2. 為了降低未來merge的複雜度使分支版本不要相異太大,則利用`git merge stable`併到分支master(或main)
+  > 3. 短期內無緊急出新版壓力的時候,`git merge master`到stable，避免兩者差異愈來愈大。
 
-
-#### Example For Branch
-[refname xxx not found](https://stackoverflow.com/questions/18382986/git-rename-local-branch-failed)
+### [refname xxx not found](https://stackoverflow.com/questions/18382986/git-rename-local-branch-failed)
 ```console
 error: refname refs/heads/HEAD not found
 fatal: Branch rename failed
@@ -62,26 +59,31 @@ $ git checkout -b NEW_BRANCH
 
 ![image](https://user-images.githubusercontent.com/68631186/127765463-8b5884a8-45f3-475c-b9d7-cbf89198677e.png)
 
-### Usage For Rebase And Merge
-```diff
+### Usage For `rebase` And `merge`
+![image](https://user-images.githubusercontent.com/68631186/127765603-849ade88-a225-4df0-b23f-202dc6b2689b.png)
+```console
 git checkout master
-- (master)git merge stable #commit C8 version
+#commit C8 version
+(master)git merge stable 
 
 git checkout stable
-- (stable)git merge master # ref to c8 
+# ref to C8 
+(stable)git merge master 
 ```
-![image](https://user-images.githubusercontent.com/68631186/127765603-849ade88-a225-4df0-b23f-202dc6b2689b.png)
 
+
+![image](https://user-images.githubusercontent.com/68631186/127765616-e18bd517-e69c-4984-92fc-f638b12ae27e.png)  
 ```diff
 git checkout master
-(master)git merge stable #commit C8 version
+#commit C8 version
+(master)git merge stable 
 
 (master)git checkout stable
-(stable)git merge master --no--ff #comit C9 version
+#comit C9 version
+(stable)git merge master --no--ff 
 ```
-![image](https://user-images.githubusercontent.com/68631186/127765616-e18bd517-e69c-4984-92fc-f638b12ae27e.png)
 
-## Remote and Clone
+## `git remote`
 ```diff
 # Clone the repository into local storage
 # 將遠端儲存庫複製到本地，並建立工作目錄與本地儲存庫 (就是 .git 資料夾)
@@ -112,17 +114,30 @@ git pull origin master --allow-unrelated-histories
 
 # 顯示特定遠端儲存庫的參照名稱。包含遠端分支與遠端標籤。
 - git ls-remote
+
+# 列出目前註冊在工作目錄裡的遠端儲存庫資訊
+git remote -v 
+```
+#### [Git Reset](https://roy-code.medium.com/%E8%AE%93%E4%BD%A0%E7%9A%84%E4%BB%A3%E7%A2%BC%E5%9B%9E%E5%88%B0%E9%81%8E%E5%8E%BB-git-reset-%E8%88%87-git-revert-%E7%9A%84%E7%94%A8%E8%99%95-6ba4b7545690)
+
+## [註冊遠端儲存庫](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/25.md)    
+```console
+git remote add Alias_for_remote_repository Remote_Repository_URL.git
+# For example
+git remote add ImExample https://github.com/maxwolf621/yoyoman.git
 ```
 
-## 註冊遠端儲存庫
-[Remote](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/25.md)    
 
-### 註冊一個遠端分支到本地分支
+[註冊多個不同遠端Repositories到本地Repository](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/25.md#%E8%A8%BB%E5%86%8A%E9%81%A0%E7%AB%AF%E5%84%B2%E5%AD%98%E5%BA%AB)
 ```console
 git remote add origin https://github.com/doggy8088/sandbox-empty2.git
+git remote add jquery git remote add jquery https://github.com/jquery/jquery.git
+#從遠端抓所有資料下來
+git fetch origin
+git fetch jquery
 ```
 
-這些註冊進工作目錄的遠端儲存庫設定資訊，都儲存在`.git\config`設定檔中，其內容如下範例：
+這些註冊進工作目錄的遠端儲存庫設定資訊，都儲存在`.git\config`設定檔中，其內容如下
 ```console
 [remote "origin"]
 	url = https://github.com/doggy8088/sandbox-empty2.git
@@ -131,46 +146,63 @@ git remote add origin https://github.com/doggy8088/sandbox-empty2.git
 	url = https://github.com/jquery/jquery.git
 	fetch = +refs/heads/*:refs/remotes/jquery/*
 ```
+- `[remote "origin"]` 區段的設定，包含了遠端儲存庫的代表名稱`origin`，還有兩個重要的參數，分別是`url`與`fetch`這兩個，**所代表的意思是：「遠端儲存庫`URL`位址在 `https://github.com/doggy8088/sandbox-empty2.git`，然後`fetch`所指定的則是一個參照名稱對應規格(refspec)。」**
 - `git ls-remote` 或 `git ls-remote origin` 即可列出所有遠端分支
-- `branch -a`會列出所有遠端分支以及本地追蹤
+- `branch -a`會列出所有遠端分支以及**本地追蹤(red mark)**
 
 ### refsepc
-假設設定一個refspec為下
+
+假設有個`[remote "origin]`區段
 ```console
 [remote "origin"]
        url = https://github.com/doggy8088/sandbox-empty2.git
        fetch = +refs/heads/master:refs/remotes/origin/master
        fetch = +refs/heads/TestBranch:refs/remotes/origin/TestBranch
 ```
-- 表示只會`git fetch` remote的master以及TestBranch
-- `+` : 設定 + 加號，代表傳輸資料時，不會特別使用安全性確認機制。
+- 表示只會`git fetch` remote repository目錄中的兩個分支分別是`/heads/master`以及`headers/TestBranch`
+- `+` : 設定 `+` 加號，代表傳輸資料時，不會特別使用安全性確認機制。
 - `refs/heads/*` : 「來源參照規格」，代表一個位於遠端儲存庫的遠端分支
-- `:` : 這用來區隔｢來源分支｣與「目的分支」
+- `:` : 這用來區隔 ｢來源分支｣ `:`「目的分支」
 - `refs/remotes/origin/*` : 「目的參照規格」，代表一個位於本地儲存庫的本地追蹤分支
 
 
-### `git push`非本地master的Branch   
-一個工作目錄下的本地儲存庫，可能會定義有多個遠端儲存庫   
-> 當你想將非main分支透過`git push`推送到Remote Repository時，Git 可能不知道你到底想推送到哪裡，所以我們要另外定義本地分支與遠端儲存庫之間的關係   
+### [`git push`不是local repository `master`(或`main`)的Branch](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/25.md#%E6%9C%AC%E5%9C%B0%E5%88%86%E6%94%AF%E8%88%87%E9%81%A0%E7%AB%AF%E5%84%B2%E5%AD%98%E5%BA%AB%E4%B9%8B%E9%96%93%E7%9A%84%E9%97%9C%E4%BF%82)   
 
-#### For example     
-建立一個 FixForCRLF 本地分支，直接透過 git push 無法推送成功，你必須輸入完整的`git push origin FixForCRLF`指令才能將本地分支推送上去，原因就出在你並沒有設定「本地分支」與「遠端儲存庫」之間的預設對應    
-要將本地分支(如FixForCRLE)建立起跟遠端儲存庫的對應關係，只要在`git push`的時候加上`--set-upstream`參數，即可將本地分支(FixForCRLF)註冊進`.git\config`設定檔，之後再用`git push`就可以順利的自動推送上去         
+如果我們建立一個`FixForCRLF`本地分支，直接透過`git push`是無法推送成功的，我們必須明確輸入完整的`git push origin FixForCRLF`才能將本地分支`FixForCRLF`推送上去，原因就出在我們沒有設定「本地分支」與「遠端儲存庫」之間的預設對應關係
+
+要將本地分支(如`FixForCRLE`)建立起跟遠端儲存庫的對應關係，只要在`git push`的時候加上`--set-upstream`參數，即可將本地分支(`FixForCRLF`)註冊進`.git\config`設定檔，爾後再用`git push`就可以順利的自動推送上去         
 ```console
 [branch "FixForCRLF"]
 	remote = origin
 	merge = refs/heads/FixForCRLF
 ```
 
-如果你今天發生了衝突(Conflict)狀況，而又不知道如何解決，因為版本尚未被成功合併，所以你可以執行以下指令「重置」到目前的 HEAD 版本：
-- `git reset --hard HEAD`
+(未合併)如果你今天發生了衝突(Conflict)狀況，而又不知道如何解決，因為版本尚未被成功合併，所以你可以執行以下指令「重置」到目前的`HEAD`版本：
+- `git reset --hard HEAD`  
+(已合併)如果你今天成功的**合併**了，但又想反悔這次的合併動作，那麼你還是可以執行以下指令「重置」到合併前的版本狀態，也就是重置到`ORIG_HEAD`這個版本：
+- `git reset --hard ORIG_HEAD`  
 
-如果你今天成功的合併了，但又想反悔這次的合併動作，那麼你還是可以執行以下指令「重置」到合併前的版本狀態，也就是重置到 ORIG_HEAD 這個版本：
-- `git reset --hard ORIG_HEAD`
+### [Different Branch in same remote Repository](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/27.md)
 
-## Generierte Commits überarbeiten oder rückgängig machen
-[Commit版本控制](commit版本控制.md)  
+當clone一個Remote Repository後,預設都會有一個master(或main)分支。在實務上，這個分支通常用來當作目前系統的「穩定版本」，也就是這個版本必須是乾淨且高品質的原始碼版本。所以，我們會要求所有人都不要用這個分支來建立任何版本，真正要建立版本時，一定會透過「合併」的方式來進行操作，以確保版本能夠更容易被追蹤。
 
+再開發過程中則會建立不同的分支方便專案管理  
+
+其中常見分支開發名稱
+```diff
+- master : 通常存放系統的穩定版本
+- develop : 開發版本
+- feature/[branch_name] : 開發的功能
+- hotfix/[branch_name] : 穩定版本的突發(hot)錯誤 
+```
+
+`git push --all`能將所有本地分支都`push`到Remote Repository內
+`git push --tags`則是將所有本地分支的tags`push`到Remote Repository內
+
+#### [`git fetch --all --tags`告訴團隊將你push的本地分支全fetch下來](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/27.md#%E8%AB%8B%E5%9C%98%E9%9A%8A%E6%88%90%E5%93%A1%E4%B8%8B%E8%BC%89%E9%81%A0%E7%AB%AF%E5%84%B2%E5%AD%98%E5%BA%AB%E6%89%80%E6%9C%89%E7%89%A9%E4%BB%B6)
+
+
+## [Generierte Commits überarbeiten oder rückgängig machen](commit版本控制.md)  
 * [commit版本控制基本原則](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#%E7%89%88%E6%9C%AC%E6%8E%A7%E7%AE%A1%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E5%89%87)  
 * [git revert](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#git-revert)  
 * [git cherry-pick](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#git-cherry-pick)
@@ -196,14 +228,8 @@ git remote add origin https://github.com/doggy8088/sandbox-empty2.git
   > + UserA_Project --- fork ---> In_UserB -- git clone --> In_UserC
   > - In_UserC --> git push --> In_UserB
   > ```
+ 
 - How do we merg In_UserB with UserA_Project ? [Via `pull request`](https://gitbook.tw/chapters/github/pull-request.html)
 - [Syncing A Fork(From Remote)](https://gitbook.tw/chapters/github/syncing-a-fork.html)
-- [團隊不同Branch上的開發之應用](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/27.md#%E9%96%8B%E5%A7%8B%E5%90%84%E8%87%AA%E9%80%B2%E8%A1%8C%E4%B8%8D%E5%90%8C%E7%9A%84%E5%88%86%E6%94%AF%E9%96%8B%E7%99%BC)
+- [pull](https://kingofamani.gitbooks.io/git-teach/content/chapter_5/pull.html)
 
-### 常見分支開發名稱
-```diff
-- master : 通常存放系統的穩定版本
-- develop : 開發版本
-- feature/[branch_name] : 開發的功能
-- hotfix/[branch_name] : 穩定版本的突發(hot)錯誤 
-```
