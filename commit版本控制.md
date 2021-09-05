@@ -7,8 +7,8 @@
 **維持一個良好的版本紀錄有助於我們追蹤每個版本的更新歷程,當軟體的BUG發生的時候，我們會需要去追蹤特定**BUG的歷史紀錄**，查出該BUG真正發生的原因，這個時候就是版本控管帶來最大價值的時候。**
 
 原則
-- 做一個小功能修改(Modifiedd)就建立版本(commit)，這樣才容易追蹤變更, 千萬不要累積一大堆修改後才建立一個「大版本」
-- 有邏輯、有順序的修正功能，確保相關的版本修正可以**按順序提交(commit)**，這樣才便於追蹤(e.g 利用`git log`)
+- Project只要有做細小的修改(Modifiedd)就建立版本(commit)附上註解，這樣未來才容易追蹤變更, 盡量不要一次commit Project多處部分的修改
+  > 有邏輯、有順序的修正功能，確保相關的版本修正可以**按順序提交(commit)**，這樣才便於追蹤(e.g 利用`git log`)
 
 ## 修正`commit`歷史紀錄的理由
 
@@ -272,44 +272,20 @@ At this point, you (maintainer維護者) can go back to the master branch and do
 $ git checkout master
 $ git merge experiment
 ```
+
+
 ![image](https://user-images.githubusercontent.com/68631186/127736624-de257a44-dbe7-49a6-8c8b-6772116b57fa.png)
-
-
-### Compare `rebase` with `merge` 
-
-the snapshot pointed to by `C4'` is exactly the same as the one that was pointed to by `C5` in the merge example. (is same snapshot )
-
-Good about Rebasing is that it makes for a cleaner history. 
-- It looks like a linear history in `git log`
-  > It appears that all the work happened in series, even when it originally happened in parallel.
-
-Doing this to make sure your commits apply cleanly on a remote branch — perhaps in a project to which you’re trying to contribute but that you don’t maintain.    
-In this case, you’d do your work in a branch and then rebase your work onto `origin/master` when you were ready to submit your patches to the main project.  
-That way, the maintainer doesn’t have to do any integration work — just a fast-forward or a clean apply.
-> 一般我们这样做的目的是为了确保在向远程分支推送时能保持提交历史的整洁——例如向某个其他人维护的项目贡献代码时。 在这种情况下，你首先在自己的分支里进行开发，当开发完成时你需要先将你的代码变基到 origin/master 上，然后再向main提交修改。 这样的话，该项目的维护者就不再需要进行整合工作，只需要快进合并(fast forward)便可
-
-> It’s only the history that is different.
->> Rebasing replays changes from one line of work onto another in the order they were introduced(把某Branch一系列commits有時間順序性的依次加入到我們要rebase的Branch上), whereas merging takes the endpoints and merges them together(將branchs的endpoints結合在一起).
-```
-rebae 
-a-b-c-d-g-copy_of_h-copy_of_j-copy_of_k-copy_of_l
-'-h-j-k-l
-
-merge
-
-a-b-c-d-g-NEW
-'-h-j-k-l-'
-```
-[DIAGRAM](https://dannyliu.me/%E4%BD%BF%E7%94%A8git-rebase%E4%BE%86%E5%90%88%E4%BD%B5%E5%88%86%E6%94%AF/)
 
 ![image](https://user-images.githubusercontent.com/68631186/127771473-eaf43412-5841-4c4a-ad03-8f1192450adb.png)
 - `bugFix` commits and merges what master refs to  
 
 ![image](https://user-images.githubusercontent.com/68631186/127771480-56575fed-0915-44a7-961f-23c59234f7fc.png)
-- 在做rebase時，git實際動作是複製C2與C3這兩個commit並把複製品接到master上面，然後標註C3'是bugFix分支
-### Rebase 能做的事
+- 在做rebase時，實際動作是複製`C2`與`C3`這兩個commitments並把複製品依序接到master上面(TOP)，然後標註`C3'`是為Branch `bugFix`
 
-- 將分支X當成自己當前分支的「基礎版本」(意思就是要把當前分支所有與分支X不同的commitments都複製到分支x上)。除了這件事以外，你還可以用來修改某個分支中「特定一段」歷程的紀錄，你可以做的事情包括：
+The snapshot pointed to by `C4'` is exactly the same as the one that was pointed to by `C5` in the merge example. (is same snapshot )  
+
+Rebase還可以用來修改某分支中特定的Commitments
+- [範例](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/23.md#rebase-%E8%83%BD%E5%81%9A%E7%9A%84%E4%BA%8B)    
 ```diff
 - 調換 commit 的順序
 - 修改 commit 的訊息
@@ -320,4 +296,29 @@ a-b-c-d-g-NEW
 - 壓縮一個 commit，但丟棄版本紀錄
 - 刪除一個 commit
 ```
-[範例](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/23.md#rebase-%E8%83%BD%E5%81%9A%E7%9A%84%E4%BA%8B)    
+
+### Difference `rebase` with `merge` 
+
+Good about Rebasing is that it makes for a cleaner history. 
+- **It looks like a linear history in `git log`**
+  > It appears that all the work happened in series, even when it originally happened in parallel.
+
+Doing this to make sure your commits apply cleanly on a remote branch — perhaps in a project to which you’re trying to contribute but that you don’t maintain.    
+In this case, you’d do your work in a branch and then rebase your work onto `origin/master` when you were ready to submit your patches to the main project.  
+That way, the maintainer doesn’t have to do any integration work — just a `fast-forward` or a clean apply.
+> 一般我們這樣做的目的是為了確保在向Remote Branchs推送時能保持提交歷史的整潔——例如向某個被其他人維護的項目貢獻程式碼時。 
+>> 在這種情況下，我們會先在自己的分支里進行開發，當開發完成時你需要先將你要commit程式碼變Rebase到`origin/master`上，然後再向main提交修改(`git commit`)。 這樣的話，該項目的維護者就不再需要進行整合工作，只需要快進合並(`fast forward`)便可
+
+> It’s only the history that is different.
+>> Rebasing replays changes from one line of work onto another in the order they were introduced(把某Branch一系列commits有時間順序性的依次加入到我們要rebase的Branch上), whereas merging takes the endpoints and merges them together(將branchs的endpoints結合在一起).
+
+```diff
+rebae 
+a--b--c--d--g--copy_of_h--copy_of_j--copy_of_k--copy_of_l
+'--h--j--k--l
+
+merge
+a--b--c--d-g----NEW_NODE
+'--h--j--k--l-----'
+```
+[DIAGRAM](https://dannyliu.me/%E4%BD%BF%E7%94%A8git-rebase%E4%BE%86%E5%90%88%E4%BD%B5%E5%88%86%E6%94%AF/)   
