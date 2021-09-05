@@ -182,6 +182,20 @@ mian_A--main_B------------------------------->main_C-->main_branch1_B
 
 使用`git reset --hard ORIG_HEAD`還原master上一次指的位置
 
+
+`reset`的Mode
+復原修改過的索引的狀態(mixed)
+徹底取消最近的提交(hard)
+只取消提交(soft)
+
+
+| Mode    | HEAD的位置	| 索引   |	工作目錄 |
+|---------|----------- |-------|----------|
+| soft	  |  修改	     | 不修改 |	不修改  |
+| mixed	  |  修改	     | 修改	  |  不修改  |
+| hard	  |  修改	     | 修改	  |  修改    |
+
+
 ## Changing the Last Commit `git commit --amend`
 
 [More Details](https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History#_git_amend)  
@@ -304,6 +318,12 @@ Rebase還可以用來修改某分支中特定的Commitments
 - 壓縮一個 commit，但丟棄版本紀錄
 - 刪除一個 commit
 ```
+
+`git merge -squash [branch_X]` 把branch_X每個commitments都存在一個節點並merge到你的branch上
+![image](https://user-images.githubusercontent.com/68631186/132136587-4ab304d0-1f8b-4365-8c04-b2b5aa90f9e2.png)
+`git rebase -i`
+![image](https://user-images.githubusercontent.com/68631186/132136600-93bfa772-b2db-4c1e-a4fc-c704bc0f8afa.png)
+
 
 ### Difference `rebase` with `merge` 
 
