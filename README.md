@@ -11,27 +11,17 @@
 - [Git Quick Review](GitQuickReview.md)
 - [`git diff`](https://github.com/maxwolf621/GitNote/blob/main/GitQuickReview.md#git-diff)
 
-## Branch
-```diff
-#display 所有分支
-- git branch 
+## [Branch](https://git-scm.com/docs/git-branch)
 
-#遠端/本地分支追蹤
-- git branch -a 
+[Diagram Branch](https://git-scm.com/book/zh-tw/v2/%E4%BD%BF%E7%94%A8-Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E5%92%8C%E5%90%88%E4%BD%B5%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95)
 
-- git branch [branch_name]
-
-# switch to branch_name
-- git checkout -b [branch_name]
-- git checkout [branch_name]
-
-# delete the branch_name
-- git branch -d [branch_name]
-
-# display each commit 內容
-- git log
-```
-- [Diagram Branch](https://git-scm.com/book/zh-tw/v2/%E4%BD%BF%E7%94%A8-Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E5%92%8C%E5%90%88%E4%BD%B5%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95)
+Most Used   
+`git branch -a` : shows both local and remote branches.   
+`git branch [branch_name]` : create a branch_name   
+`git checkout -b [branch_name]` : create a branch_name and switch to it   
+`git checkout [branch_name]` : switch to branch_name    
+`git branch -d [branch_name]` : elete the branch_name   
+`git log` : display each commitment 內容   
 
 ### [Branch Usage](BranchUsage.md)
 - [Git's Ref](https://github.com/maxwolf621/GitNote/blob/main/BranchUsage.md#%E5%8F%83%E7%85%A7ref%E5%90%8D%E7%A8%B1)  
@@ -44,13 +34,13 @@
   > 2. 為了降低未來merge的複雜度使分支版本不要相異太大,則利用`git merge stable`併到分支master(或main)
   > 3. 短期內無緊急出新版壓力的時候,`git merge master`到stable，避免兩者差異愈來愈大。
 
-### Error [`refname xxx not found`](https://stackoverflow.com/questions/18382986/git-rename-local-branch-failed)
+#### Error [`refname xxx not found`](https://stackoverflow.com/questions/18382986/git-rename-local-branch-failed)
 
 ```console
 error: refname refs/heads/HEAD not found
 fatal: Branch rename failed
 ```
-- Becauase You are currently in detached head state. 
+- Becauase You are currently in detached head state.   
 
 You must `checkout -b` a new branch to associate it
 ```bash
