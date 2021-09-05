@@ -213,67 +213,62 @@ Date:   Sat Jul 31 05:32:29 2020 +0800
 ```
 
 ## rebase
-
-[note taking](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA)    
-[from doggy8088 note taking](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/22.md)   
+[git-scm](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA)     
+[doggy8088](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/22.md)    
 
 ![image](https://user-images.githubusercontent.com/68631186/127741064-2d8f2263-a555-4e0e-8393-679df2b1c8f2.png)
-- 從分歧點`169a6`rebase到main這條branch上
+- 從分歧點`169a6` rebase到main這條branch上
 
 
-Error occur for checking remote branchs (in the remote repo)
+[Error `bash: $'\302\203git': command not found` for checking remote branchs (in the remote repo)](https://newbedev.com/shell-bash-302-203git-command-not-found-code-example)   
 ```console
 Schmi@MSI MINGW64 ~/Desktop/SpringBootFrontend (probieren)
 $ git remote -r
+
 bash: $'\302\203git': command not found
 ```
-[(SOLUTION)Reference](https://newbedev.com/shell-bash-302-203git-command-not-found-code-example)   
-> push current local committed to remote repository's main  
+after that we push current local committment to remote repository's `main`  
 ```console
-Schmi@MSI MINGW64 ~/Desktop/SpringBootFrontend (probieren)
+Schmi@MSI MINGW64 ~/Desktop/SpringBootFrontend (probieren) 
 $ git push origin remotes/origin/main
+
 Total 0 (delta 0), reused 0 (delta 0), pack-reused 0
 To https://github.com/maxwolf621/SpringBootFrontend.git
  * [new reference]   origin/main -> origin/main
 ```
 
-
 ## Head detached
-
 It means pointer Head does not point to any node, it might often happene when we `git checkout` the remote branch.
 To solve such problem we can `ckecout` a branch or `ckechout -b` a new branch   
 
-
 ## Example 
-![image](https://user-images.githubusercontent.com/68631186/127736291-d26756fc-3ab8-4fba-adea-4c51ed836c37.png)
+![image](https://user-images.githubusercontent.com/68631186/127736291-d26756fc-3ab8-4fba-adea-4c51ed836c37.png)   
+
 #### Use `merge` to interage the branches
 It performs a three-way merge between the two latest branch snapshots (`C3` and `C4`) and the most recent common ancestor of the two (`C2`), creating a new snapshot (and `commit`).   
+
 ![image](https://user-images.githubusercontent.com/68631186/127736382-d3ec1d77-ac2b-4eab-bd1e-537d6d42c0a3.png)  
 
-#### Use `rebase` instead of `merge`
 
+#### Use `rebase` instead of `merge`
 With `rebase` you can take the patch of the change that was introduced in `C4` and reapply it on top of` C3`.  
 - With this command , **you can take all the changes that were committed on one branch and replay them on a different branch.**
 
 For this example, you (Owner of Local Repo) would check out the experiment branch, and then rebase it onto the master branch as follows:
-```bash
-$ git checkout experiment
-$ git rebase master
+```console
+$ git checkout experiment # Go branch experiments
+$ git rebase master       # experiments take master as its base branch
 First, rewinding head to replay your work on top of it...
 Applying: added staged command
 ```
+**This operation works by going to the common ancestor of the two branches**  (the branch you’re on (`experiment`) and the one you’re rebasing onto(`master`)), **getting the diff introduced by each commit of the branch you’re on, saving those diffs to temporary files**, **resetting the current branch to the same commit as the branch you are rebasing onto(`C3`), and finally applying each change(temporary files) in turn.**
 
-**This operation works by going to the common ancestor of the two branches**  (the one you’re on(`experiment`) and the one you’re rebasing onto(`master`)),**getting the diff introduced by each commit of the branch you’re on, saving those diffs to temporary files**, **resetting the current branch to the same commit as the branch you are rebasing onto(`C3`), and finally applying each change(temporary files) in turn.**
-
-![image](https://user-images.githubusercontent.com/68631186/127736475-4f95bbcc-5442-4ec2-b73e-efef990a8a02.png)
-
-At this point, you (maintainer維護者) can go back to the master branch and do a fast-forward merge.
+![image](https://user-images.githubusercontent.com/68631186/127736475-4f95bbcc-5442-4ec2-b73e-efef990a8a02.png)   
+At this point, you (maintainer維護者) can go back to the master branch and do a `fast-forward` merge.
 ```bash
 $ git checkout master
 $ git merge experiment
 ```
-
-
 ![image](https://user-images.githubusercontent.com/68631186/127736624-de257a44-dbe7-49a6-8c8b-6772116b57fa.png)
 
 ![image](https://user-images.githubusercontent.com/68631186/127771473-eaf43412-5841-4c4a-ad03-8f1192450adb.png)
@@ -323,3 +318,15 @@ a--b--c--d-g----NEW_NODE
 '--h--j--k--l-----'
 ```
 [DIAGRAM](https://dannyliu.me/%E4%BD%BF%E7%94%A8git-rebase%E4%BE%86%E5%90%88%E4%BD%B5%E5%88%86%E6%94%AF/)   
+
+## `git pull –rebase` 
+
+![image](https://user-images.githubusercontent.com/68631186/132130880-e2dca919-6423-4fe3-a961-0fd4ec41794a.png)
+1.  take commitments out and put them to statsh to keep work directory clean
+2. `pull` the branch from remote repository 
+3. `merge` the branch from remote repository and the these we put in the stat 
+
+
+Error `Cannot rebase: You have unstaged changes`
+1. use `git status` to check if there are any modified files which havn't been committed
+2. use `git add -A` instead of `git add .` to add all the files (`git add -u` : keep only modified and deletion files (No new created files allow)) 
