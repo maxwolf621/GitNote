@@ -10,6 +10,7 @@
 - [What is git](https://git-scm.com/book/zh/v2/%E8%B5%B7%E6%AD%A5-Git-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F)
 - [Git Quick Review](GitQuickReview.md)
 - [`git diff`](https://github.com/maxwolf621/GitNote/blob/main/GitQuickReview.md#git-diff)
+
 ## Branch
 ```diff
 #display 所有分支
@@ -44,6 +45,7 @@
   > 3. 短期內無緊急出新版壓力的時候,`git merge master`到stable，避免兩者差異愈來愈大。
 
 ### Error [`refname xxx not found`](https://stackoverflow.com/questions/18382986/git-rename-local-branch-failed)
+
 ```console
 error: refname refs/heads/HEAD not found
 fatal: Branch rename failed
@@ -56,19 +58,20 @@ $ git checkout -b NEW_BRANCH
 ```
 
 ### [`git merge CommitId`'s fast forward mode](https://medium.com/@fcamel/%E4%BD%95%E6%99%82%E8%A9%B2%E7%94%A8-git-merge-no-ff-d765c3a6bef5)
-
+- fast forward mode : only one way in
+- no fast mode : there are > 1 ways in
 ![image](https://user-images.githubusercontent.com/68631186/127765463-8b5884a8-45f3-475c-b9d7-cbf89198677e.png)
 
 ### `git rebase` And `git merge`
 ![image](https://user-images.githubusercontent.com/68631186/127765603-849ade88-a225-4df0-b23f-202dc6b2689b.png)
 ```console
 git checkout master
-#commit C8 version
-(master)git merge stable 
+# To Commit C8 Version
+(master) :　git merge stable 
 
 git checkout stable
-# ref to C8 
-(stable)git merge master 
+# To Ref To C8 
+(stable)　git merge master 
 ```
 
 
@@ -216,21 +219,21 @@ git fetch jquery
 
 ## 多人遠端合作
 - [多人共用Remote Repository](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/26.md) 當某一方的本地(LOCAL)無法`git push`modified到遠端時
-	>```diff
-	># fetch遠端所有分支, merge遠端的分支
-	>- git fetch
-	>- git merge origin/master
-	>
-	># 直接取代`git fetch`跟`git merge`
-	>- git pull
-	>```
+　>```diff
+　># fetch遠端所有分支, merge遠端的分支
+　>- git fetch
+　>- git merge origin/master
+　>
+　># 直接取代`git fetch`跟`git merge`
+　>- git pull
+　>```
 - [git clone a fork](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/28.md#%E4%BD%BF%E7%94%A8-fork-%E9%81%8E%E7%9A%84-git-%E9%81%A0%E7%AB%AF%E5%84%B2%E5%AD%98%E5%BA%AB)
   > ```diff
   > + UserA_Project --- fork ---> In_UserB -- git clone --> In_UserC
   > - In_UserC --> git push --> In_UserB
   > ```
  
-- How do we merg In_UserB with UserA_Project ? [Via `pull request`](https://gitbook.tw/chapters/github/pull-request.html)
+- How do we merg Project_In_UserB with Project_In_UserA ? [Via `pull request`](https://gitbook.tw/chapters/github/pull-request.html)
 - [Syncing A Fork(From Remote)](https://gitbook.tw/chapters/github/syncing-a-fork.html)
 - [pull](https://kingofamani.gitbooks.io/git-teach/content/chapter_5/pull.html)
 
