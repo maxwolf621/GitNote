@@ -205,25 +205,49 @@ git fetch jquery
 * [git rebase COMMIT](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#rebase)
     > [Example : Somebody else has `push`ed to master already, and your `commit` is behind. Therefore you have to fetch, merge the changeset, and then you'll be able to push again.](https://github.com/maxwolf621/GitNote/blob/main/rebaseExample.sh)  
     >> [! [rejected] master -> master (fetch first)](https://stackoverflow.com/questions/28429819/rejected-master-master-fetch-first)   
-     
 
 ## 多人遠端合作
-- [多人共用Remote Repository](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/26.md) 當某一方的本地(LOCAL)無法`git push`modified到遠端時
-　>```diff
-　># fetch遠端所有分支, merge遠端的分支
-　>- git fetch
-　>- git merge origin/master
-　>
-　># 直接取代`git fetch`跟`git merge`
-　>- git pull
-　>```
-- [git clone a fork](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/28.md#%E4%BD%BF%E7%94%A8-fork-%E9%81%8E%E7%9A%84-git-%E9%81%A0%E7%AB%AF%E5%84%B2%E5%AD%98%E5%BA%AB)
-  > ```diff
-  > + UserA_Project --- fork ---> In_UserB -- git clone --> In_UserC
-  > - In_UserC --> git push --> In_UserB
-  > ```
- 
-- How do we merg Project_In_UserB with Project_In_UserA ? [Via `pull request`](https://gitbook.tw/chapters/github/pull-request.html)
-- [Syncing A Fork(From Remote)](https://gitbook.tw/chapters/github/syncing-a-fork.html)
-- [pull](https://kingofamani.gitbooks.io/git-teach/content/chapter_5/pull.html)
 
+以下為幾個多人遠端合作常用的情境
+
+### Q: [`pull request`](https://gitbook.tw/chapters/github/pull-request.html)
+
+[pull](https://kingofamani.gitbooks.io/git-teach/content/chapter_5/pull.html)
+
+使用情境     
+UserB從UserOrigin fork 一份project_X,並clone下來進行改寫(UserB會有完整的權限對該fored project_X進行改寫),push完後    
+可以通知UserOrigin你在forked project做了一些改寫     
+UserOrigin看完後如果覺得比原本的好，則可以把來自(forked project_X)這些修改合併（Merge）到他的專案(project_X裡    
+
+[Clone A Fork](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/28.md#%E4%BD%BF%E7%94%A8-fork-%E9%81%8E%E7%9A%84-git-%E9%81%A0%E7%AB%AF%E5%84%B2%E5%AD%98%E5%BA%AB)
+
+### [多人共用Remote Repository專案不同步](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/26.md) 
+
+
+[Syncing A Fork(From Remote)](https://gitbook.tw/chapters/github/syncing-a-fork.html)
+
+一個多人合作的專案進度可能會與你目前本地專案進度有所不同,例如   
+```
+origin--------------origin_NewVersion
+'-- userX--userX_2       /
+'			/
+'---userA--userA_1--userA_2
+```
+- 可以看到`userX`的分支進度明顯與遠端`origin`的分支進度還慢,這時候如果userX要`push`到`origin`會發生錯誤,為了避免兩者專案的差異性越來越大,我們就需要進行同步避免差異性
+
+此求況可以用下面方法解決
+`git fetch` : fetch遠端所有分支     
+`git merge origin/master` : merge遠端的分支      
+`git pull` : 直接取代`git fetch`　+ `git merge`     
+
+```console
+(UserX) git fecth remotes/origin/main #抓取遠端目前分支上的所有commitments
+(UserX) git merge remotes/origin/main #UserX分支與遠端上分支進行合併
+```
+合併後會變成像這樣
+
+```
+origin----origin_NewVersion------+ 
+ '-----userX--------------------userX-2
+```
+這樣就完成同步的功能
