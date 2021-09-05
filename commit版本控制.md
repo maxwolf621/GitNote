@@ -299,18 +299,19 @@ Rebase還可以用來修改某分支中特定的Commitments
 
 ### Difference `rebase` with `merge` 
 
-Good about Rebasing is that it makes for a cleaner history. 
+#### Good about Rebasing is that it makes for a cleaner history. 
 - **It looks like a linear history in `git log`**
-  > It appears that all the work happened in series, even when it originally happened in parallel.
+- It appears that all the work happened in series, even when it originally happened in parallel.
 
-Doing this to make sure your commits apply cleanly on a remote branch — perhaps in a project to which you’re trying to contribute but that you don’t maintain.    
-In this case, you’d do your work in a branch and then rebase your work onto `origin/master` when you were ready to submit your patches to the main project.  
-That way, the maintainer doesn’t have to do any integration work — just a `fast-forward` or a clean apply.
-> 一般我們這樣做的目的是為了確保在向Remote Branchs推送時能保持提交歷史的整潔——例如向某個被其他人維護的項目貢獻程式碼時。 
->> 在這種情況下，我們會先在自己的分支里進行開發，當開發完成時你需要先將你要commit程式碼變Rebase到`origin/master`上，然後再向main提交修改(`git commit`)。 這樣的話，該項目的維護者就不再需要進行整合工作，只需要快進合並(`fast forward`)便可
+Doing this to make sure your commits apply cleanly on a remote branch — perhaps in a project to which you’re trying to contribute but that you don’t maintain.   
+(一般我們這樣做的目的是為了確保在向Remote Branchs推送時能保持提交歷史的整潔——例如向某個被其他人維護的項目貢獻程式碼時)
 
-> It’s only the history that is different.
->> Rebasing replays changes from one line of work onto another in the order they were introduced(把某Branch一系列commits有時間順序性的依次加入到我們要rebase的Branch上), whereas merging takes the endpoints and merges them together(將branchs的endpoints結合在一起).
+In this case, you’d do your work in a branch and then rebase your work onto `origin/master` when you were ready to submit your patches to the main project. That way, the maintainer doesn’t have to do any integration work — just a `fast-forward` or a clean apply.   
+(在這種情況下，我們會先在自己的分支里進行開發，當開發完成時你需要先將你要commit程式碼變Rebase到`origin/master`上，然後再向main提交修改(`git commit`)。 這樣的話，該項目的維護者就不再需要進行整合工作，只需要快進合並(`fast forward`)便可)  
+
+#### It’s only the history that is different.
+
+Rebasing replays changes from one line of work onto another in the order they were introduced(`rebase`是把某Branch一系列commitments有時間順序性的依次加入到我們要rebase的Branch上), whereas merging takes the endpoints and merges them together(`merge`是將Branchs的Endpoints結合在(同時ref到)一個新的node).
 
 ```diff
 rebae 
