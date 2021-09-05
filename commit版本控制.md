@@ -14,7 +14,6 @@
 
 **大部分的Git操作都著重在Local Repo，也就是在工作目錄下的版本管控，這個Repository就位於`.git/`目錄下**, 但「遠端儲存庫」的應用，就牽涉一個TEAM的不同Member不同版本的管控,在Git版本控管中，**只要同一份儲存庫有多人共用的情況下，若有人任意竄改版本，那麼 Git 版本控管一樣會無法正常運作**  
 
-
 ## 更改使用情境
 
 設現有三個版本
@@ -39,14 +38,15 @@
 - 你可以任意修改某個支線上的版本，只要你還沒「分享」給其他人
 - 當你「分享」特定分支給其他人之後，這些「已分享」的版本歷史紀錄就別再改了
 
-## `git revert` 
+## `git revert`  (凡走下必留痕跡)
 [According to gitbook.tw](https://gitbook.tw/chapters/rewrite-history/reset-revert-and-rebase.html)   
 
-**新增一個Commit來反轉(Revert)/撤銷(Withdraw)某一個Commit過的Version，該Commit還是會保留在歷史紀錄中。故使用`git rvert`會增加Commit數，通常比較適用於已經推出去的Commit，或是不允許使用Reset 或Rebase之修改歷史紀錄的指令的場合**    
+**新增一個`commit`來反轉(Revert)/撤銷(Withdraw)某一個`commitment`，要`revert`的comitments還是會保留在歷史紀錄中**
+- 使用`rvert`會增加Commitments，通常比較適用於已經推出去的Commit，或是不允許使用`reset`或`rebase`之修改歷史紀錄的指令的場合    
 
-> 如果是自己一個人做的專案，用 Revert 指令其實有點過於「禮貌」了，大部份都是直接使用Reset就好。但如果對於多人共同協作的專案，也許因為團隊開發的政策，你不一定有機會可以使用 Reset 指令，**這時候就可以 Revert 指令來做出一個「Revert/Withdraw」的 Commit，對其它人來說也不算是「修改歷史」，而是新增一個 Commit，只是剛好這個 Commit 是跟某個 Commit 反向的操作而已。**
+> 如果是自己一個人做的專案，用 Revert 指令其實有點過於「禮貌」了，大部份都是直接使用Reset就好。但如果對於多人共同協作的專案，也許因為團隊開發的政策，你不一定有機會可以使用Reset指令，**這時候就可以`revert`指令來做出一個「Revert/Withdraw」的 Commit，對其它人來說也不算是「修改歷史」，而是新增一個 Commit，只是剛好這個 Commit 是跟某個 Commit 反向的操作而已。**
 
-For example  
+For example
 ```console
 pi@JianMayer:~/Desktop/diffExample $ echo 123 > revert.txt
 pi@JianMayer:~/Desktop/diffExample $ git add revert.txt
@@ -68,7 +68,7 @@ pi@JianMayer:~/Desktop/diffExample $ git revert b29b2464
 ```
 
 After `git revert b29b2464` 
-```bash
+```console
 Revert "add revert.txt"
 Execute git revert b29b2364
 
@@ -114,43 +114,52 @@ index 0000000..190a180
 +123
 ```
 
-```diff
 - 如果有發生Conflict則無法使用`git revert`反悔
-```
 
 ### revert完是不自動commit
 
 `git revert -n commitId`
-- revert 該commitId之後不自動提交,之後如果要提交得用`git revert --continue`
+- revert該commitId之後不會自動提交,要提交得用`git revert --continue`
 - 如果要abort這次的revert操作, 則得用`git revert --abort`
 
-`git revert --continue` 
+`git revert --continue`
 - 代表你已經完成所有操作，並且**建立一個新版本**，與`git commit`類似。
 
 `git revert --abort`
 - 代表你準備放棄這次revert的動作，執行這個命令會讓所有變更狀態還原，也就是刪除的檔案又會被加回來。
 
 ## `git cherry-pick`
-[Note Taking](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/21.md)  
+[Note Taking](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/21.md)    
 
-cherry-pick : 從別人籃子中的cherry挑(pick up)幾個自己要的到自己的籃子內(從別的分支挑幾個自己想要的(commitments)到自己的分支)
-
+cherry-pick : 從別人籃子中的cherry挑(pick up)幾個自己要的到自己的籃子內
+> 從某個分支挑幾個自己想要的(commitments)到自己的分支
+ 
+For example, to pick up branch1's commitments to main
+-  A,B,C represent commitments of main and branch1 
 ```diff
-+ For example, to pick up branch1's commitments to main, A,B,C is committed version of main and branch2
-soruce tree (main, branch1) :　
 mian_A--main_B------------------------------->main_C
      '--branch1_A-->branch1_B-->branch1_C
+```
 
-! ~$ git log branch1 -3 　# only show up first three logs
-brach1_A-->branch1_B-->bracn1_c
+```console
+~$ git log branch1 -3 　# only show up first three logs of branch1 
 
-# If we only want branch1_B and copy it to main 
-# Assume branch1_B commit id is `dc07017....f2e5`
-! ~$ git cherry-pick dc07017
+brach1_A-->branch1_B-->bracn1_C
+```
 
+If we only want `branch1_B` and copy it to `main`   
+Assume `branch1_B` commit id is `dc07017....f2e5`  
+```diff
+~$ git checkout main
+~$ git cherry-pick dc07017
+```
+
+After `main` cherry-picks `branch1_B` 
+```
 mian_A--main_B------------------------------->main_C-->main_branch1_B
      '--branch1_A-->branch1_B-->branch1_C
 ```
+
 
 使用`git cherry-pick`跟使用`git revert`非常相似，也是讓你「挑選」任意一個或多個版本，然後套用在當前指定分支的最新版上，但主要差異則在於「`git revert`執行的是相反的合併，而`git cherry-pick` 則是重新套用完全相同的變更  
 
@@ -160,7 +169,7 @@ mian_A--main_B------------------------------->main_C-->main_branch1_B
 - `git cherry-pick 2c33a -n`不會自動提交,待使用者自己更改`2c33a`的內容後並`git commit`,此時該新增版本`git log`會顯示該使用者的Author & Date 資訊
 
 ```diff
-! 使用`git cherry-pick`時，當前「工作目錄」必須是乾淨，工作目錄下的Stage Area不能有任何準備要 commit 的檔案 (staged files) 在裡面，否則將會無法執行。
+! 使用`git cherry-pick`時，work directory必須是乾淨，工作目錄下的Stage Area不能有任何準備要 commit 的檔案 (staged files) 在裡面，否則將會無法執行。
 ```
 
 ## `git reset COMMITID`
@@ -180,9 +189,8 @@ mian_A--main_B------------------------------->main_C-->main_branch1_B
 如果不小心執行了`git commit`動作，但還有些檔案忘了加進去 (`git add [filepath]`) 或只是`紀錄訊息`寫錯，想重新補上的話，直接執行`git commit --amend`即可。  
 - **這個動作，會把目前紀錄在索引中的變更檔案，全部添加到當前最新版之中，並且要求你修改原本的紀錄訊息**  
 
-
+Add a new file in commit-version b533ea
 ```console
-pi@JianMayer:~/Desktop/diffExample $ # add a new file in commit-version b533ea
 pi@JianMayer:~/Desktop/diffExample $ git log
 commit b533ea4a2c6b5221efe2a6105e84c54b67397c85 (HEAD -> master)
 Author: Maxwolf621 <asdf@gmail.com>
@@ -196,6 +204,10 @@ Author: Maxwolf621 <asdf@gmail.com>
 Date:   Sat Jul 31 05:30:03 2020 +0800
 
     using ex.txt from master
+```
+
+to amend something (like add new file) 
+```console
 pi@JianMayer:~/Desktop/diffExample $ echo AddFileb533ea >> amend.txt
 pi@JianMayer:~/Desktop/diffExample $ git add .
 pi@JianMayer:~/Desktop/diffExample $ git commit --amend
@@ -211,6 +223,7 @@ Date:   Sat Jul 31 05:32:29 2020 +0800
     usng master
     AMENDING this COMMIT-VERSION BY ADDING NEW FILE NAMED amend.txt
 ```
+
 
 ## rebase
 [git-scm](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA)     
