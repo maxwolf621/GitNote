@@ -199,9 +199,9 @@ git fetch jquery
 - feature/[branch_name] : 開發的功能
 - hotfix/[branch_name] : 穩定版本的突發(hot)錯誤 
 ```
-- `git push --all`能將所有本地分支都`push`到Remote Repository內    
-- `git push --tags`則是將所有本地分支的tags`push`到Remote Repository內    
-- [`git fetch --all --tags`告訴TEAM將我所`git push`的本地分支全fetch下來](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/27.md#%E8%AB%8B%E5%9C%98%E9%9A%8A%E6%88%90%E5%93%A1%E4%B8%8B%E8%BC%89%E9%81%A0%E7%AB%AF%E5%84%B2%E5%AD%98%E5%BA%AB%E6%89%80%E6%9C%89%E7%89%A9%E4%BB%B6)    
+- `git push --all`: 能將所有本地分支都`push`到Remote Repository內    
+- `git push --tags`: 則是將所有本地分支的tags`push`到Remote Repository內    
+- [`git fetch --all --tags`: 告訴TEAM將我所`git push`的本地分支全fetch下來](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/27.md#%E8%AB%8B%E5%9C%98%E9%9A%8A%E6%88%90%E5%93%A1%E4%B8%8B%E8%BC%89%E9%81%A0%E7%AB%AF%E5%84%B2%E5%AD%98%E5%BA%AB%E6%89%80%E6%9C%89%E7%89%A9%E4%BB%B6)    
 
 ## [Generierte Commits überarbeiten oder rückgängig machen](commit版本控制.md)  
 * [commit版本控制基本原則](https://github.com/maxwolf621/GitNote/blob/main/commit%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.md#%E7%89%88%E6%9C%AC%E6%8E%A7%E7%AE%A1%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E5%89%87)  
