@@ -1,19 +1,20 @@
 # Reference/Verweise auf URL
 
-[git-scm.com](https://git-scm.com/book/de/v2)  
-[Notes From](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/README.md)    
-[GitCommand diagram](https://marklodato.github.io/visual-git-guide/index-de.html)  
-[面試](https://segmentfault.com/a/1190000019315509)  
+- [git-scm.com](https://git-scm.com/book/de/v2)  
+- [Notes From](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/README.md)    
+- [GitCommand diagram](https://marklodato.github.io/visual-git-guide/index-de.html)  
+- [Interview](https://segmentfault.com/a/1190000019315509)  
 
-# Note 
 
-- [What is git](https://git-scm.com/book/zh/v2/%E8%B5%B7%E6%AD%A5-Git-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F)
-- [Git Quick Review](GitQuickReview.md)
-- [`git diff`](https://github.com/maxwolf621/GitNote/blob/main/GitQuickReview.md#git-diff)
 
-## [Branch](https://git-scm.com/docs/git-branch)
+## [What is git](https://git-scm.com/book/zh/v2/%E8%B5%B7%E6%AD%A5-Git-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F)
+## [Git Quick Review](GitQuickReview.md)
+## [`git diff`](https://github.com/maxwolf621/GitNote/blob/main/GitQuickReview.md#git-diff)
 
-[Diagram Branch](https://git-scm.com/book/zh-tw/v2/%E4%BD%BF%E7%94%A8-Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E5%92%8C%E5%90%88%E4%BD%B5%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95)
+
+## Branch 
+- [Branch](https://git-scm.com/docs/git-branch)
+- [Branch with Diagram](https://git-scm.com/book/zh-tw/v2/%E4%BD%BF%E7%94%A8-Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E5%92%8C%E5%90%88%E4%BD%B5%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95)
 
 Most Used   
 `git branch -a` : shows both local and remote branches.   
@@ -28,14 +29,13 @@ Most Used
 - [smyref && custom ref](https://github.com/maxwolf621/GitNote/blob/main/BranchUsage.md#symref)
 - [ref's `~` and `^` ](https://github.com/maxwolf621/GitNote/blob/main/BranchUsage.md#%E7%9B%B8%E5%B0%8D%E5%90%8D%E7%A8%B1%E8%A1%A8%E7%A4%BA)
 - [tag](https://github.com/maxwolf621/GitNote/blob/main/BranchUsage.md#tag)  
-- **重要[git merge COMMITID](https://github.com/maxwolf621/GitNote/blob/main/BranchUsage.md#merge)**
-  > 使用`git merge`的情境(假設分支master(或main)為開發版本,分支stable客戶使用穩定版本)如下
-  > 1. (當stable需要hotfix) 要使用`cherry-pick master` 緊急的修改到分支stable或是直接在stable修bug
-  > 2. 為了降低未來merge的複雜度使分支版本不要相異太大,則利用`git merge stable`併到分支master(或main)
-  > 3. 短期內無緊急出新版壓力的時候,`git merge master`到stable，避免兩者差異愈來愈大。
+- **[git merge COMMITID](https://github.com/maxwolf621/GitNote/blob/main/BranchUsage.md#merge)**
+	- 使用`git merge`的情境 (假設分支master(或main)為開發版本,分支stable客戶使用穩定版本) 如下
+		1. (當stable需要hotfix) 要使用`cherry-pick master` 緊急的修改到分支stable或是直接在stable修bug
+		2. 為了降低未來merge的複雜度使分支版本不要相異太大,則利用`git merge stable`併到分支master(或main)
+		3. 短期內無緊急出新版壓力的時候,`git merge master`到stable，避免兩者差異愈來愈大。
 
-#### Error [`refname xxx not found`](https://stackoverflow.com/questions/18382986/git-rename-local-branch-failed)
-
+#### ERROR [`refname xxx not found`](https://stackoverflow.com/questions/18382986/git-rename-local-branch-failed)
 ```console
 error: refname refs/heads/HEAD not found
 fatal: Branch rename failed
@@ -48,12 +48,17 @@ $ git checkout -b NEW_BRANCH
 ```
 
 ### [`git merge CommitId`'s fast forward mode](https://medium.com/@fcamel/%E4%BD%95%E6%99%82%E8%A9%B2%E7%94%A8-git-merge-no-ff-d765c3a6bef5)
-- fast forward mode : only one way in
-- no fast mode : there are > 1 ways in
+
+- Fast Forward mode 
+	- only one way in
+
+- No fast mode : there are > 1 ways in
 ![image](https://user-images.githubusercontent.com/68631186/127765463-8b5884a8-45f3-475c-b9d7-cbf89198677e.png)
+
 
 ### `git rebase` And `git merge`
 ![image](https://user-images.githubusercontent.com/68631186/127765603-849ade88-a225-4df0-b23f-202dc6b2689b.png)
+
 ```console
 git checkout master
 # To Commit C8 Version
@@ -63,7 +68,6 @@ git checkout stable
 # To Ref To C8 
 (stable)　git merge master 
 ```
-
 
 ![image](https://user-images.githubusercontent.com/68631186/127765616-e18bd517-e69c-4984-92fc-f638b12ae27e.png)  
 ```diff
