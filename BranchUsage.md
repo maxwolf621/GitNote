@@ -3,15 +3,19 @@
 ## 參照(Ref)名稱
 [Note Taking](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/11.md)  
 
-- 幫Branch取個好記的名稱
+- Ref可以幫Branch取個好記的名稱(Alias)
 - 所有參照名稱都是檔案存放在`.git/ref`下
 - 所有「本地分支」的參照名稱皆位於 `.git\refs\heads`
 - **參照名稱可以指向任意 Git 物件，並沒有限定非要 commit 物件不可**
 
 ### Example FOR Ref
-`git branch` 取得所有分支名稱，並發現目前「Work Directory」是指向 newbranch1 這個分支     
-此時我們透過`git log --pretty=oneline`即可取得該分支的所有版本紀錄。預設這些分支的「參照名稱」會指向分支的「最新版」，我們只要打開 `.git\refs\heads\newbranch1` 檔案的內容，就可以看出這是一個純文字檔而已，而且是指向版本歷史紀錄(History)中的「最新版」。  
-最後再以`git cat-file -p 該commitID`取得該 commit 物件的內容，以及用`git show 該commitID`取得該版本的變更紀錄
+
+`git branch` 取得所有分支名稱，並發現目前 Work Directories 是指向 newbranch1 這個分支     
+此時我們透過`git log --pretty=oneline`即可取得該分支的所有版本紀錄。  
+
+預設這些分支的「參照名稱」會指向分支的「最新版」，我們只要打開  `git\refs\heads\newbranch1` 檔案的內容，就可以看出這是一個純文字檔而已，而且是指向版本歷史紀錄(History)中的「最新版」。  
+
+最後再以`git cat-file -p newBranchCommitID`取得該 commit 物件的內容，以及用`git show 該commitID`取得該版本的變更紀錄
 
 ### under `.git/ref`
 
