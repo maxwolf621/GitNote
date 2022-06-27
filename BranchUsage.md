@@ -9,18 +9,10 @@
   - 所有本地分支的ref都位於 `.git\refs\heads`
 - **參照名稱可以指向任意Git物件，並沒有限定非要commit物件不可**
 
-
 Under the Folder (`.git/ref`)
 - Local  分支 : `.git/refs/heads/`
 - Remote 分支 : `.git/refs/remotes/`
 - Tag : `.git/refs/tags/`
-
-
-`git branch`取得所有分支名稱，並發現目前Work Directories是指向 newBranch1，此時透過`git log --pretty=oneline`即可取得該分支的所有版本(Commit)紀錄   
-預設這些分支的Ref會指向分支的最新的提交(`git\refs\heads\newBranch1`)  
-
-最後再以`git cat-file -p newBranchCommitID`取得該commit物件的內容，以及用`git show newBranchCommitID`取得該版本的變更紀錄   
-
 
 利用Ref來查找分支版本資訊
 ```console
